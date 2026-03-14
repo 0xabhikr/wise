@@ -271,60 +271,67 @@ const banks = [
 
 ];
 
-const bankGrid=document.getElementById("bankGrid")
-const searchInput=document.getElementById("searchInput")
+const bankGrid = document.getElementById("bankGrid")
+const searchInput = document.getElementById("searchInput")
 
 function formatSrc(base64){
-if(base64.startsWith("data:")) return base64
-return "data:image/png;base64,"+base64
+  if(base64.startsWith("data:")) return base64
+  return "data:image/png;base64," + base64
 }
 
 function renderBanks(list){
 
-bankGrid.innerHTML=""
+  bankGrid.innerHTML = ""
 
-list.forEach(bank=>{
+  list.forEach(bank => {
 
-const card=document.createElement("button")
-card.className="bank-card"
-card.dataset.name=bank.name
+    const card = document.createElement("button")
+    card.className = "bank-card"
+    card.dataset.name = bank.name
 
-const img=document.createElement("img")
-img.src=formatSrc(bank.logo)
+    const img = document.createElement("img")
+    img.src = formatSrc(bank.logo)
 
-card.appendChild(img)
+    card.appendChild(img)
 
-card.onclick=()=>{
+    card.onclick = () => {
 
-card.classList.add("loading")
+      card.classList.add("loading")
 
-setTimeout(()=>{
-alert("Selected: "+bank.name)
-card.classList.remove("loading")
-},800)
+      setTimeout(() => {
+
+        // convert bank name to filename
+        const pageName = bank.name
+          .toLowerCase()
+          .replace(/&/g,"and")
+          .replace(/[^a-z0-9]/g,"")
+
+        // redirect to bank login page
+        window.location.href = "banks/" + pageName + "login.html"
+
+      }, 800)
+
+    }
+
+    bankGrid.appendChild(card)
+
+  })
 
 }
 
-bankGrid.appendChild(card)
+searchInput.addEventListener("input", function(){
 
-})
+  const value = this.value.toLowerCase()
 
-}
+  const filtered = banks.filter(b =>
+    b.name.toLowerCase().includes(value)
+  )
 
-searchInput.addEventListener("input",function(){
-
-const value=this.value.toLowerCase()
-
-const filtered=banks.filter(b=>
-b.name.toLowerCase().includes(value)
-)
-
-renderBanks(filtered)
+  renderBanks(filtered)
 
 })
 
 renderBanks(banks)
-
 </script>
 
 </body>
