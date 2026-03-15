@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #111;
+    }
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      background: #efefef;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 446px;
+      background: #efefef;
+      border: 1px solid #cfcfcf;
+    }
+
+    .top-bar {
+      height: 100px;
+      border-bottom: 1px solid #bfc9d1;
+      background: #efefef;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .logo-box {
+      width: 115px;
+      height: 100px;
+      background: #0a98d5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-box img {
+      max-width: 90%;
+      max-height: 80%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .content {
+      padding: 36px 16px 24px;
+      background-color: white;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 400;
+      margin: 0 0 24px;
+      color: #1c2b39;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    input {
+      width: 100%;
+      height: 54px;
+      border: 1px solid #bdbdbd;
+      border-radius: 4px;
+      padding: 0 14px;
+      font-size: 18px;
+      background: #ffffff;
+      outline: none;
+    }
+
+    input:focus {
+      border: 2px solid #222;
+      background: #fff;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 48px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-size: 20px;
+      color: #7a8792;
+      padding: 0;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 54px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 4px;
+      background: #005f86;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #004f6f;
+    }
+
+    .forgot-link {
+      display: block;
+      text-align: center;
+      margin: 30px 0 36px;
+      color: #006ba6;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+        background-color: white;
+      border-top: 1px solid #efefef;
+      padding: 20px 16px 24px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #222;
+      
+    }
+
+    .footer p {
+      margin: 0 0 10px;
+    }
+    .title{
+        font-size: 26px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="top-bar">
+        <div class="logo-box">
+          <!-- Replace with your company logo -->
+          <img src="./charles/charls.png" alt="Company Logo" />
+        </div>
+      </div>
+
+      <div class="content">
+        <h1 class="title">Log In</h1>
+
+        <form>
+          <div class="form-group">
+            <label for="loginId">Login ID</label>
+            <input type="text" id="loginId" name="loginId" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" />
+              <button type="button" class="toggle-password" aria-label="Show password" onclick="togglePassword()">
+                👁
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="login-btn">Log in</button>
+        </form>
+
+        <a href="#" class="forgot-link">Forgot Password?</a>
+      </div>
+
+      <div class="footer">
+        <p>This site supports Microsoft Edge, Google Chrome, and Mozilla Firefox.</p>
+        <p>For institutional use only.<br>
+        ©2026 Your Company Name. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById("password");
+      const isPassword = passwordInput.type === "password";
+      passwordInput.type = isPassword ? "text" : "password";
+    }
+  </script>
+</body>
+</html>
