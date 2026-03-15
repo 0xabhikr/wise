@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Login</title>
+  <style>
+    :root {
+      --brand-green: #008a2e;
+      --brand-dark: #0c4b3a;
+      --text: #1f1f1f;
+      --muted: #bfbfbf;
+      --border: #cfcfcf;
+      --bg: #ffffff;
+      --white: #ffffff;
+      --icon-black: #111111;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .screen {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--bg);
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+    }
+
+    .topbar {
+      background: var(--white);
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .brand img {
+      
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text {
+      line-height: 1.1;
+      padding-top: 3px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1d;
+      margin: 0;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      color: #4a4a4a;
+      margin-top: 4px;
+    }
+
+    .lang {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 4px;
+      font-size: 18px;
+      color: #111;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Requested caret style */
+    .legacy-icon {
+      display: inline-block;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .legacy-icon-downCaret {
+      width: 12px;
+      height: 12px;
+    }
+
+    .legacy-icon-downCaret::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 1px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--icon-black);
+      border-bottom: 2px solid var(--icon-black);
+      transform: rotate(45deg);
+    }
+
+    .ngp-icon-black::before {
+      border-color: var(--icon-black);
+    }
+
+    .content {
+      padding: 78px 18px 32px;
+    }
+
+    h1 {
+      margin: 0 0 56px;
+      font-size: 28px;
+      line-height: 1.2;
+      color: var(--brand-dark);
+      font-weight: 500;
+    }
+
+    .field {
+      margin-bottom: 34px;
+    }
+
+    label {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 14px;
+      color: #222;
+    }
+
+    input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #bfbfbf;
+      background: #ffffff;
+      padding: 0 14px;
+      font-size: 16px;
+      border-radius: 0;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--brand-green);
+      background: #fff;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 46px;
+    }
+
+    button {
+      flex: 1;
+      height: 48px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 0;
+    }
+
+    .btn-cancel {
+      background: #fff;
+      color: var(--brand-green);
+      border: 2px solid var(--brand-green);
+    }
+
+    .btn-login {
+      background: #f2f2f2;
+      color: #bdbdbd;
+      border: 2px solid #d3d3d3;
+    }
+
+    .forgot {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 34px;
+      color: var(--brand-green);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .forgot .arrow {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    @media (max-width: 360px) {
+      .content {
+        padding: 64px 14px 24px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      label {
+        font-size: 18px;
+      }
+
+      .forgot {
+        font-size: 15px;
+      }
+
+      .actions {
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <header class="topbar">
+      <div class="brand">
+        <img src="./td/tdlogo.png" alt="Company Logo" />
+        
+      </div>
+
+      <div class="lang" aria-label="Language selector">
+        <span>EN</span>
+        <div class="legacy-icon legacy-icon-downCaret ngp-icon-black" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main class="content">
+      <h1>Log in</h1>
+
+      <div class="field">
+        <label for="username">User name</label>
+        <input type="text" id="username" name="username" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-cancel">Cancel</button>
+        <button type="submit" class="btn-login">Log in</button>
+      </div>
+
+      <a href="#" class="forgot">
+        <span>Forgot user name and/or password?</span>
+        <span class="arrow">›</span>
+      </a>
+    </main>
+  </div>
+</body>
+</html>
