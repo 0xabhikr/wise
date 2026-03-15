@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DemoBank Sign In</title>
+
+<style>
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+
+body {
+background: #ffffff;
+display: flex;
+justify-content: center;
+min-height: 100vh;
+}
+
+.phone-frame {
+width: 100%;
+max-width: 420px;
+background: #ffffff;
+min-height: 100vh;
+}
+
+/* RED BANNER */
+
+.top-strip {
+height: 38px;
+background: linear-gradient(
+135deg,
+#c4122f 0%,
+#c4122f 25%,
+#b80f29 25%,
+#b80f29 40%,
+#cf1836 40%,
+#cf1836 65%,
+#b80f29 65%,
+#b80f29 80%,
+#c4122f 80%
+);
+display: flex;
+align-items: center;
+padding-left: 16px;
+margin-top: 90px;
+}
+
+/* LOGO */
+
+.logo {
+height: 34px;
+margin-top: -130px;
+}
+
+/* CONTENT */
+
+.content {
+padding: 34px 22px 24px;
+}
+
+.intro {
+font-size: 16px;
+line-height: 1.42;
+margin-bottom: 34px;
+}
+
+.field {
+margin-bottom: 16px;
+}
+
+.label {
+display: block;
+font-size: 16px;
+font-weight: 700;
+margin-bottom: 6px;
+}
+
+.input {
+width: 100%;
+height: 38px;
+border: 1px solid #cfc5c5;
+background: #ffffff;
+padding: 8px 10px;
+font-size: 16px;
+outline: none;
+}
+
+.input:focus {
+border-color: #1558c0;
+background: #fff;
+}
+
+/* BUTTONS */
+
+.btn {
+width: 100%;
+height: 56px;
+font-size: 25px;
+border-radius: 0;
+cursor: pointer;
+margin-top: 32px;
+}
+
+.btn-primary {
+background: #0455c7;
+color: white;
+height: 46px;
+border: none;
+}
+
+.btn-secondary {
+background: transparent;
+color: #0455c7;
+height: 46px;
+border: 2px solid #0455c7;
+margin-top: 16px;
+}
+
+/* HELP TEXT */
+
+.help {
+margin-top: 52px;
+font-size: 18px;
+line-height: 1.35;
+color: #665858;
+}
+
+/* FOOTER */
+
+.footer {
+margin-top: 24px;
+background: #ece7e7;
+padding: 10px 22px 18px;
+border-top: 1px solid #d5d0d0;
+color: #625757;
+font-size: 14px;
+line-height: 1.45;
+}
+
+.secure {
+font-weight: 700;
+margin-bottom: 12px;
+}
+
+.footer-links {
+margin-bottom: 8px;
+}
+
+.footer-links a {
+color: #0455c7;
+text-decoration: none;
+margin-right: 8px;
+}
+
+.brand-note a {
+color: #0455c7;
+text-decoration: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="phone-frame">
+
+<!-- RED BANNER WITH LOGO -->
+<div class="top-strip">
+<img src="./BOA/boa.png" alt="DemoBank Logo" class="logo">
+</div>
+
+<div class="content">
+
+<p class="intro">
+For your protection, DemoBank must confirm your identity and obtain your
+consent before sharing your online account information.
+</p>
+
+<div class="field">
+<label class="label" for="userId">User ID</label>
+<input class="input" id="userId" type="text">
+</div>
+
+<div class="field">
+<label class="label" for="password">Password</label>
+<input class="input" id="password" type="password">
+</div>
+
+<button class="btn btn-primary">Submit</button>
+<button class="btn btn-secondary">Cancel</button>
+
+<p class="help">
+For help with your User ID or Password, please go to
+www.demobank.example or the Mobile Banking app.
+</p>
+
+</div>
+
+<div class="footer">
+
+<div class="secure">🔒 Secure Area</div>
+
+<div class="footer-links">
+<a href="#">Privacy</a> |
+<a href="#">Security</a>
+</div>
+
+<div class="brand-note">
+DemoBank, N.A. Member FDIC.
+<a href="#">Equal Housing Lender</a><br>
+© 2026 DemoBank Corporation. All rights reserved.
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
