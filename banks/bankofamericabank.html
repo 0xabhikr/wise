@@ -1,224 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DemoBank Sign In</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DemoBank Sign In</title>
 
-<style>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
 
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-}
+    body {
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-body {
-background: #ffffff;
-display: flex;
-justify-content: center;
-min-height: 100vh;
-}
+    .phone-frame {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      min-height: 100vh;
+    }
 
-.phone-frame {
-width: 100%;
-max-width: 420px;
-background: #ffffff;
-min-height: 100vh;
-}
+    /* RED BANNER */
 
-/* RED BANNER */
+    .top-strip {
+      height: 38px;
+      background: linear-gradient(135deg,
+          #c4122f 0%,
+          #c4122f 25%,
+          #b80f29 25%,
+          #b80f29 40%,
+          #cf1836 40%,
+          #cf1836 65%,
+          #b80f29 65%,
+          #b80f29 80%,
+          #c4122f 80%);
+      display: flex;
+      align-items: center;
+      padding-left: 16px;
+      margin-top: 90px;
+    }
 
-.top-strip {
-height: 38px;
-background: linear-gradient(
-135deg,
-#c4122f 0%,
-#c4122f 25%,
-#b80f29 25%,
-#b80f29 40%,
-#cf1836 40%,
-#cf1836 65%,
-#b80f29 65%,
-#b80f29 80%,
-#c4122f 80%
-);
-display: flex;
-align-items: center;
-padding-left: 16px;
-margin-top: 90px;
-}
+    /* LOGO */
 
-/* LOGO */
+    .logo {
+      height: 34px;
+      margin-top: -130px;
+    }
 
-.logo {
-height: 34px;
-margin-top: -130px;
-}
+    /* CONTENT */
 
-/* CONTENT */
+    .content {
+      padding: 34px 22px 24px;
+    }
 
-.content {
-padding: 34px 22px 24px;
-}
+    .intro {
+      font-size: 16px;
+      line-height: 1.42;
+      margin-bottom: 34px;
+    }
 
-.intro {
-font-size: 16px;
-line-height: 1.42;
-margin-bottom: 34px;
-}
+    .field {
+      margin-bottom: 16px;
+    }
 
-.field {
-margin-bottom: 16px;
-}
+    .label {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
 
-.label {
-display: block;
-font-size: 16px;
-font-weight: 700;
-margin-bottom: 6px;
-}
+    .input {
+      width: 100%;
+      height: 38px;
+      border: 1px solid #cfc5c5;
+      background: #ffffff;
+      padding: 8px 10px;
+      font-size: 16px;
+      outline: none;
+    }
 
-.input {
-width: 100%;
-height: 38px;
-border: 1px solid #cfc5c5;
-background: #ffffff;
-padding: 8px 10px;
-font-size: 16px;
-outline: none;
-}
+    .input:focus {
+      border-color: #1558c0;
+      background: #fff;
+    }
 
-.input:focus {
-border-color: #1558c0;
-background: #fff;
-}
+    /* BUTTONS */
 
-/* BUTTONS */
+    .btn {
+      width: 100%;
+      height: 56px;
+      font-size: 25px;
+      border-radius: 0;
+      cursor: pointer;
+      margin-top: 32px;
+    }
 
-.btn {
-width: 100%;
-height: 56px;
-font-size: 25px;
-border-radius: 0;
-cursor: pointer;
-margin-top: 32px;
-}
+    .btn-primary {
+      background: #0455c7;
+      color: white;
+      height: 46px;
+      border: none;
+    }
 
-.btn-primary {
-background: #0455c7;
-color: white;
-height: 46px;
-border: none;
-}
+    .btn-secondary {
+      background: transparent;
+      color: #0455c7;
+      height: 46px;
+      border: 2px solid #0455c7;
+      margin-top: 16px;
+    }
 
-.btn-secondary {
-background: transparent;
-color: #0455c7;
-height: 46px;
-border: 2px solid #0455c7;
-margin-top: 16px;
-}
+    /* HELP TEXT */
 
-/* HELP TEXT */
+    .help {
+      margin-top: 52px;
+      font-size: 15px;
+      line-height: 1.35;
+      color: #665858;
+    }
 
-.help {
-margin-top: 52px;
-font-size: 18px;
-line-height: 1.35;
-color: #665858;
-}
+    /* FOOTER */
 
-/* FOOTER */
+    .footer {
+      margin-top: 24px;
+      background: #ece7e7;
+      padding: 10px 22px 18px;
+      border-top: 1px solid #d5d0d0;
+      color: #625757;
+      font-size: 12px;
+      line-height: 1.45;
+    }
 
-.footer {
-margin-top: 24px;
-background: #ece7e7;
-padding: 10px 22px 18px;
-border-top: 1px solid #d5d0d0;
-color: #625757;
-font-size: 14px;
-line-height: 1.45;
-}
+    .secure {
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
 
-.secure {
-font-weight: 700;
-margin-bottom: 12px;
-}
+    .footer-links {
+      margin-bottom: 8px;
+    }
 
-.footer-links {
-margin-bottom: 8px;
-}
+    .footer-links a {
+      color: #0455c7;
+      text-decoration: none;
+      margin-right: 8px;
+    }
 
-.footer-links a {
-color: #0455c7;
-text-decoration: none;
-margin-right: 8px;
-}
+    .brand-note a {
+      color: #0455c7;
+      text-decoration: none;
+    }
 
-.brand-note a {
-color: #0455c7;
-text-decoration: none;
-}
+    .brand-note{
+      font-size: 12px;
+      line-height: 1.3;
+    }
 
-</style>
+    .lock-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="phone-frame">
+  <div class="phone-frame">
 
-<!-- RED BANNER WITH LOGO -->
-<div class="top-strip">
-<img src="./BOA/boa.png" alt="DemoBank Logo" class="logo">
-</div>
+    <!-- RED BANNER WITH LOGO -->
+    <div class="top-strip">
+      <img src="./BOA/boa.png" alt="DemoBank Logo" class="logo">
+    </div>
 
-<div class="content">
+    <div class="content">
 
-<p class="intro">
-For your protection, DemoBank must confirm your identity and obtain your
-consent before sharing your online account information.
-</p>
+      <p class="intro">
+        For your protection, DemoBank must confirm your identity and obtain your
+        consent before sharing your online account information.
+      </p>
 
-<div class="field">
-<label class="label" for="userId">User ID</label>
-<input class="input" id="userId" type="text">
-</div>
+      <div class="field">
+        <label class="label" for="userId">User ID</label>
+        <input class="input" id="userId" type="text">
+      </div>
 
-<div class="field">
-<label class="label" for="password">Password</label>
-<input class="input" id="password" type="password">
-</div>
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <input class="input" id="password" type="password">
+      </div>
 
-<button class="btn btn-primary">Submit</button>
-<button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-secondary">Cancel</button>
 
-<p class="help">
-For help with your User ID or Password, please go to
-www.demobank.example or the Mobile Banking app.
-</p>
+      <p class="help">
+        For help with your User ID or Password, please go to
+        www.demobank.example or the Mobile Banking app.
+      </p>
 
-</div>
+    </div>
 
-<div class="footer">
+    <div class="footer">
 
-<div class="secure">🔒 Secure Area</div>
+      <div class="secure"><svg class="lock-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true">
+          <path fill="#444"
+            d="M25.419 11.068h-3.906V8.792c0-4.036-2.753-6.148-5.472-6.148-3.166 0-5.553 2.644-5.553 6.148v2.276H6.669c-1.11 0-2 .89-2 2v12.86c0 1.11.89 2 2 2h18.75a2 2 0 0 0 2-2v-12.86a2 2 0 0 0-2-2m-8.28 6.81v4h-2.2v-4zm-4.651-9.086c0-2.694 1.83-4.148 3.553-4.148s3.472 1.283 3.472 4.148v2.276h-7.024V8.792Z" />
+        </svg> Secure Area</div>
 
-<div class="footer-links">
-<a href="#">Privacy</a> |
-<a href="#">Security</a>
-</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a> |
+        <a href="#">Security</a> |
+        <a href="#">Your Privacy Choices</a>
+      </div>
 
-<div class="brand-note">
-DemoBank, N.A. Member FDIC.
-<a href="#">Equal Housing Lender</a><br>
-© 2026 DemoBank Corporation. All rights reserved.
-</div>
+      <div class="brand-note">
+        Bank of America, N.A. Member FDIC. <a href="https://www.bankofamerica.com/help/equalhousing-popup/" target="_blank" rel="noopener" name="Equal_Housing_Lender">Equal Housing Lender</a> <br>©&nbsp;2026 Bank of America Corporation.
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
 </body>
+
 </html>
