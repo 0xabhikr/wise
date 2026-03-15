@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regions Bank – routing lookup</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            color: #1d1d1f;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 120px;
+            box-sizing: border-box;
+            box-shadow: 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        /* header reused */
+        .header-bar {
+            background: #ffffff;
+            padding: 12px 18px 8px;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .icon-btn {
+            width: 54px;
+            height: 22px;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #2a2a2a;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 10px;
+            padding: 0 6px;
+        }
+
+        .dot {
+            flex: 1;
+            height: 4px;
+            border-radius: 999px;
+            display: block;
+        }
+        .dot.active {
+            background: #30c8ea;
+        }
+        .dot.inactive {
+            background: #dce3e7;
+        }
+
+        .heading {
+            text-align: center;
+            padding: 0 30px;
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: 550;
+            color: #111;
+        }
+
+        .form-container {
+            width: 320px;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-box {
+            background: linear-gradient(45deg, #f5f5ff 0%, #fcf0ff 50%, #fffbf0 100%);
+            border: 1px solid rgb(163, 41, 41);
+            border-radius: 12px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            position: relative;
+        }
+
+        .input-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .input-box input::placeholder {
+            color: #6f6f6f;
+        }
+
+        .bottom-fixed {
+            position: absolute;
+            left: 26px;
+            right: 26px;
+            bottom: 30px;
+        }
+
+        .continue-btn {
+            width: 100%;
+            height: 55px;
+            border: none;
+            border-radius: 8px;
+            background: #747677;
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 550;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.1s;
+        }
+
+        .continue-btn:active {
+            background: #5a5b5c;
+        }
+
+        .link-btn {
+            width: 100%;
+            height: 55px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #090909;
+            font-size: 17px;
+            font-weight: 550;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .bank-result {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #111;
+            margin: 40px 0 10px;
+            padding: 0 20px;
+            word-break: break-word;
+        }
+
+        .sub-result {
+            text-align: center;
+            font-size: 16px;
+            color: #3b3b3f;
+            margin-bottom: 40px;
+        }
+
+        .error-message {
+            color: #b91c1c;
+            background: #fee2e2;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            text-align: center;
+            margin: 20px 30px 0;
+        }
+    </style>
+    <!-- embed Inter font (optional fallback) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,550;14..32,600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="phone-frame" id="app">
+        <!-- dynamic content will be rendered by js -->
+    </div>
+
+    <script>
+        (function() {
+            // ----- state & routing (tiny SPA) -----
+            const appEl = document.getElementById('app');
+
+            // mock of the python API call – returns a promise that mimics the exact response structure
+            function callPlaidSearch(routingNumber) {
+                // This replicates the given python request but in browser fetch
+                // IMPORTANT: CORS will block this because the API endpoint does not allow browser requests.
+                // For demo/embed we simulate the response using a mapping table + optional network simulation.
+                // Real integration would require a backend proxy or Plaid SDK with public key / link tokens.
+                console.log('Simulating API call for routing:', routingNumber);
+
+                // Simulate network delay
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // actual API would return something like: {"translation":"Bank of America"}
+                        // but we only have the sample for 026009593. We'll create a small mapping
+                        const mockDb = {
+                            '026009593': { translation: 'Bank of America' },
+                            '021000021': { translation: 'JPMorgan Chase' },
+                            '121000358': { translation: 'Wells Fargo' },
+                            '053000196': { translation: 'Regions Bank' },
+                            '074000078': { translation: 'Fifth Third Bank' },
+                        };
+                        const normalized = routingNumber.trim();
+                        if (mockDb[normalized]) {
+                            resolve({ translation: mockDb[normalized].translation });
+                        } else {
+                            // If not found, return a generic response like Plaid might (but we'll treat as unknown)
+                            // In real API it might return something else; we'll simulate fallback
+                            resolve({ translation: 'Other Financial Institution' });
+                        }
+                    }, 400);
+                });
+            }
+
+            // two pages: 'input' and 'result'
+            let currentPage = 'input';
+            let currentRouting = '';
+            let bankName = '';
+            let errorMsg = '';
+
+            // render function based on state
+            function render() {
+                if (currentPage === 'input') {
+                    appEl.innerHTML = renderInputPage();
+                    attachInputEvents();
+                } else if (currentPage === 'result') {
+                    appEl.innerHTML = renderResultPage();
+                    attachResultEvents();
+                }
+            }
+
+            // ----- input page template -----
+            function renderInputPage() {
+                return `
+                    <div class="header-bar">
+                        <div class="header-row">
+                            <button class="icon-btn" onclick="history.back()" aria-label="back">
+                                <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;">
+                                    <path d="M15 18l-6-6 6-6" />
+                                </svg>
+                            </button>
+                            <div>
+                                <img style="height:28px;" alt="Plaid" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCA2NCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zMy42MjM4IDguMTMzOUMzMy4wOTUzIDcuNjg5NSAzMi4xOTMzIDcuNDY3MyAzMC45MTczIDcuNDY3M0gyOC4wMzkzVjE2LjM2MTRIMzAuMTkxM1YxMy41NzQzSDMxLjE1NTNDMzIuMzI1MyAxMy41NzQzIDMzLjE4MzMgMTMuMzE2NyAzMy43MjkzIDEyLjgwMTFDMzQuMzQ0OCAxMi4yMjM0IDM0LjY1MzggMTEuNDU0MyAzNC42NTM4IDEwLjQ5NDNDMzQuNjUzOCA5LjQ5ODkxIDM0LjMxMDMgOC43MTIxMiAzMy42MjM4IDguMTMzOVpNMzEuMTAxOCAxMS41NjEzSDMwLjE5MTNWOS40ODA3M0gzMS4wMDkzQzMyLjAwNDMgOS40ODA3MyAzMi41MDE4IDkuODI5NjkgMzIuNTAxOCAxMC41Mjc2QzMyLjUwMTggMTEuMjE2NCAzMi4wMzQ4IDExLjU2MTMgMzEuMTAxOCAxMS41NjEzWiIgZmlsbD0iIzExMTExMSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTM4LjMzNjcgNy40NjcxNEgzNi4wOTI3VjE2LjM2MTJINDAuOTM3N1YxNC4zNDc4SDM4LjMzNjdWNy40NjcxNFoiIGZpbGw9IiMxMTExMTEiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS4zMzM4IDcuNDY3MTRMNDEuODA4OCAxNi4zNjEySDQ0LjIyNDhMNDQuNjg2OCAxNS4wNjc5SDQ3Ljc0OThMNDguMTcyMyAxNi4zNjEySDUwLjYxNTNMNDcuMTE1OCA3LjQ2NzE0SDQ1LjMzMzhaTTQ1LjMwNzMgMTMuMjY3Nkw0Ni4yMzE4IDEwLjIyNzVMNDcuMTQyMyAxMy4yNjc2SDQ1LjMwNzNaIiBmaWxsPSIjMTExMTExIi8+CjxtYXNrIGlkPSJtYXNrMF82MjY6MTA1OSIgc3R5bGU9Im1hc2stdHlwZTphbHBoYSIgbWFza1VuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjI0Ij4KPHBhdGggZD0iTTAuNSAyMy43MzY3SDYzLjVWMC4wMDAyMTM2MjNIMC41VjIzLjczNjdaIiBmaWxsPSJ3aGl0ZSIvPgo8L21hc2s+CjxnIG1hc2s9InVybCgjbWFzazBfNjI2OjEwNTkpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01MS43MzY1IDE2LjM2MTJINTMuOTgxVjcuNDY3MTRINTEuNzM2NVYxNi4zNjEyWiIgZmlsbD0iIzExMTExMSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYyLjY5NDYgOS4xMzQwNUM2Mi4zOTUxIDguNzA3MzIgNjIuMDM4NiA4LjM2NTQ0IDYxLjYyNTEgOC4xMDczOEM2MC45NDc2IDcuNjgwNjYgNjAuMDIzMSA3LjQ2NzA0IDU4Ljg1MjYgNy40NjcwNEg1NS44OTU2VjE2LjM2MTFINTkuMzU0NkM2MC42MDQxIDE2LjM2MTEgNjEuNjA3NiAxNS45NTI2IDYyLjM2NDYgMTUuMTM0NUM2My4xMjE2IDE0LjMxNjkgNjMuNDk5NiAxMy4yMzIxIDYzLjQ5OTYgMTEuODgwN0M2My40OTk2IDEwLjgwNTYgNjMuMjMxMSA5Ljg5MDAzIDYyLjY5NDYgOS4xMzQwNVpNNTkuMTAzNiAxNC4zNDc3SDU4LjE0MDFWOS40ODA0OEg1OS4xMTcxQzU5LjgwMzYgOS40ODA0OCA2MC4zMzExIDkuNjk1MSA2MC43MDExIDEwLjEyMzhDNjEuMDcwNiAxMC41NTI2IDYxLjI1NTYgMTEuMTYwNiA2MS4yNTU2IDExLjk0NzRDNjEuMjU1NiAxMy41NDc3IDYwLjUzODYgMTQuMzQ3NyA1OS4xMDM2IDE0LjM0NzdaIiBmaWxsPSIjMTExMTExIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOS44MTg2NiAwLjAwMDExNDQ0MUwyLjU0NDY2IDEuOTA0OTdMMC41NDA2NjQgOS4yMTkzOUwzLjA0NzY2IDExLjc5MzRMMC40OTk2NjQgMTQuMzI0OUwyLjM4NjE2IDIxLjY3MTdMOS42MjgxNiAyMy42OTUyTDEyLjE3NjIgMjEuMTYzMUwxNC42ODMyIDIzLjczNjZMMjEuOTU2NyAyMS44MzE4TDIzLjk2MDcgMTQuNTE2M0wyMS40NTQyIDExLjk0MzRMMjQuMDAxNyA5LjQxMThMMjIuMTE1NyAyLjA2NTA2TDE0Ljg3MjcgMC4wNDE1MjQ0TDEyLjMyNTcgMi41NzMwOUw5LjgxODY2IDAuMDAwMTE0NDQxWk01LjM1NDY2IDMuMzExOUw5LjE4NjE2IDIuMzA3OTZMMTAuODYxNyA0LjAyNzk5TDguNDE4MTYgNi40NTYwM0w1LjM1NDY2IDMuMzExOVpNMTMuNzY1NyA0LjA1MTIyTDE1LjQ2ODIgMi4zNTk0N0wxOS4yODMyIDMuNDI1NTNMMTYuMTY5NyA2LjUxOTE2TDEzLjc2NTcgNC4wNTEyMlpNMi44MzYxNiA4LjYxODk1TDMuODkxNjYgNC43NjYzTDYuOTU0MTYgNy45MTA0M0w0LjUxMTE2IDEwLjMzODVMMi44MzYxNiA4LjYxODk1Wk0xNy42MDk3IDcuOTk3MjlMMjAuNzIzMiA0LjkwMzE2TDIxLjcxNjIgOC43NzM0OEwyMC4wMTQyIDEwLjQ2NTJMMTcuNjA5NyA3Ljk5NzI5Wk05Ljg1ODY2IDcuOTM0MTdMMTIuMzAyMiA1LjUwNjEzTDE0LjcwNTcgNy45NzQwNkwxMi4yNjI3IDEwLjQwMjFMOS44NTg2NiA3LjkzNDE3Wk01Ljk1MTY2IDExLjgxNjZMOC4zOTQ2NiA5LjM4ODU3TDEwLjc5OTIgMTEuODU2NUw4LjM1NTY2IDE0LjI4NDVMNS45NTE2NiAxMS44MTY2Wk0xMy43MDMyIDExLjg4MDJMMTYuMTQ2MiA5LjQ1MjJMMTguNTUwMiAxMS45MjAxTDE2LjEwNjcgMTQuMzQ4MkwxMy43MDMyIDExLjg4MDJaTTIuNzg1MTYgMTQuOTYzM0w0LjQ4ODE2IDEzLjI3MUw2Ljg5MTY2IDE1LjczOTRMMy43NzkxNiAxOC44MzI2TDIuNzg1MTYgMTQuOTYzM1pNOS43OTU2NiAxNS43NjI3TDEyLjIzOTIgMTMuMzM0NkwxNC42NDMyIDE1LjgwMjZMMTIuMjAwMiAxOC4yMzA2TDkuNzk1NjYgMTUuNzYyN1pNMTcuNTQ2NyAxNS44MjYzTDE5Ljk5MDIgMTMuMzk4M0wyMS42NjU3IDE1LjExNzhMMjAuNjEwMiAxOC45NzA0TDE3LjU0NjcgMTUuODI2M1pNNS4yMTg2NiAyMC4zMTEyTDguMzMxNjYgMTcuMjE3MUwxMC43MzYyIDE5LjY4NUw5LjAzMzY2IDIxLjM3NzNMNS4yMTg2NiAyMC4zMTEyWk0xMy42NDAyIDE5LjcwODdMMTYuMDgzMiAxNy4yODA3TDE5LjE0NjIgMjAuNDI0OEwxNS4zMTUyIDIxLjQyODNMMTMuNjQwMiAxOS43MDg3WiIgZmlsbD0iYmxhY2siLz4KPC9nPgo8L3N2Zz4K" />
+                            </div>
+                            <button class="icon-btn" id="close-btn" aria-label="close">
+                                <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;">
+                                    <path d="M18 6L6 18" /><path d="M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="progress-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot inactive"></span>
+                        </div>
+                    </div>
+
+                    <div class="heading">Log in at Regions Bank</div>
+
+                    <div class="form-container">
+                        <div class="input-box">
+                            <input type="text" id="routing-input" placeholder="Routing number" value="${currentRouting}" autofocus>
+                        </div>
+                    </div>
+
+                    ${errorMsg ? `<div class="error-message">${errorMsg}</div>` : ''}
+
+                    <div class="bottom-fixed">
+                        <div style="font-size:12px;line-height:1.5;color:#6b6b6f;text-align:center;margin-bottom:14px;"></div>
+                        <button class="continue-btn" id="continue-btn">Continue</button>
+                        <button class="link-btn" id="find-routing-btn">Find your routing number</button>
+                    </div>
+                `;
+            }
+
+            function renderResultPage() {
+                return `
+                    <div class="header-bar">
+                        <div class="header-row">
+                            <button class="icon-btn" id="back-to-input" aria-label="back">
+                                <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;">
+                                    <path d="M15 18l-6-6 6-6" />
+                                </svg>
+                            </button>
+                            <div>
+                                <img style="height:28px;" alt="Plaid" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCA2NCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zMy42MjM4IDguMTMzOUMzMy4wOTUzIDcuNjg5NSAzMi4xOTMzIDcuNDY3MyAzMC45MTczIDcuNDY3M0gyOC4wMzkzVjE2LjM2MTRIMzAuMTkxM1YxMy41NzQzSDMxLjE1NTNDMzIuMzI1MyAxMy41NzQzIDMzLjE4MzMgMTMuMzE2NyAzMy43MjkzIDEyLjgwMTFDMzQuMzQ0OCAxMi4yMjM0IDM0LjY1MzggMTEuNDU0MyAzNC42NTM4IDEwLjQ5NDNDMzQuNjUzOCA5LjQ5ODkxIDM0LjMxMDMgOC43MTIxMiAzMy42MjM4IDguMTMzOVpNMzEuMTAxOCAxMS41NjEzSDMwLjE5MTNWOS40ODA3M0gzMS4wMDkzQzMyLjAwNDMgOS40ODA3MyAzMi41MDE4IDkuODI5NjkgMzIuNTAxOCAxMC41Mjc2QzMyLjUwMTggMTEuMjE2NCAzMi4wMzQ4IDExLjU2MTMgMzEuMTAxOCAxMS41NjEzWiIgZmlsbD0iIzExMTExMSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTM4LjMzNjcgNy40NjcxNEgzNi4wOTI3VjE2LjM2MTJINDAuOTM3N1YxNC4zNDc4SDM4LjMzNjdWNy40NjcxNFoiIGZpbGw9IiMxMTExMTEiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00NS4zMzM4IDcuNDY3MTRMNDEuODA4OCAxNi4zNjEySDQ0LjIyNDhMNDQuNjg2OCAxNS4wNjc5SDQ3Ljc0OThMNDguMTcyMyAxNi4zNjEySDUwLjYxNTNMNDcuMTE1OCA3LjQ2NzE0SDQ1LjMzMzhaTTQ1LjMwNzMgMTMuMjY3Nkw0Ni4yMzE4IDEwLjIyNzVMNDcuMTQyMyAxMy4yNjc2SDQ1LjMwNzNaIiBmaWxsPSIjMTExMTExIi8+CjxtYXNrIGlkPSJtYXNrMF82MjY6MTA1OSIgc3R5bGU9Im1hc2stdHlwZTphbHBoYSIgbWFza1VuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjI0Ij4KPHBhdGggZD0iTTAuNSAyMy43MzY3SDYzLjVWMC4wMDAyMTM2MjNIMC41VjIzLjczNjdaIiBmaWxsPSJ3aGl0ZSIvPgo8L21hc2s+CjxnIG1hc2s9InVybCgjbWFzazBfNjI2OjEwNTkpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01MS43MzY1IDE2LjM2MTJINTMuOTgxVjcuNDY3MTRINTEuNzM2NVYxNi4zNjEyWiIgZmlsbD0iIzExMTExMSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYyLjY5NDYgOS4xMzQwNUM2Mi4zOTUxIDguNzA3MzIgNjIuMDM4NiA4LjM2NTQ0IDYxLjYyNTEgOC4xMDczOEM2MC45NDc2IDcuNjgwNjYgNjAuMDIzMSA3LjQ2NzA0IDU4Ljg1MjYgNy40NjcwNEg1NS44OTU2VjE2LjM2MTFINTkuMzU0NkM2MC42MDQxIDE2LjM2MTEgNjEuNjA3NiAxNS45NTI2IDYyLjM2NDYgMTUuMTM0NUM2My4xMjE2IDE0LjMxNjkgNjMuNDk5NiAxMy4yMzIxIDYzLjQ5OTYgMTEuODgwN0M2My40OTk2IDEwLjgwNTYgNjMuMjMxMSA5Ljg5MDAzIDYyLjY5NDYgOS4xMzQwNVpNNTkuMTAzNiAxNC4zNDc3SDU4LjE0MDFWOS40ODA0OEg1OS4xMTcxQzU5LjgwMzYgOS40ODA0OCA2MC4zMzExIDkuNjk1MSA2MC43MDExIDEwLjEyMzhDNjEuMDcwNiAxMC41NTI2IDYxLjI1NTYgMTEuMTYwNiA2MS4yNTU2IDExLjk0NzRDNjEuMjU1NiAxMy41NDc3IDYwLjUzODYgMTQuMzQ3NyA1OS4xMDM2IDE0LjM0NzdaIiBmaWxsPSIjMTExMTExIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOS44MTg2NiAwLjAwMDExNDQ0MUwyLjU0NDY2IDEuOTA0OTdMMC41NDA2NjQgOS4yMTkzOUwzLjA0NzY2IDExLjc5MzRMMC40OTk2NjQgMTQuMzI0OUwyLjM4NjE2IDIxLjY3MTdMOS42MjgxNiAyMy42OTUyTDEyLjE3NjIgMjEuMTYzMUwxNC42ODMyIDIzLjczNjZMMjEuOTU2NyAyMS44MzE4TDIzLjk2MDcgMTQuNTE2M0wyMS40NTQyIDExLjk0MzRMMjQuMDAxNyA5LjQxMThMMjIuMTE1NyAyLjA2NTA2TDE0Ljg3MjcgMC4wNDE1MjQ0TDEyLjMyNTcgMi41NzMwOUw5LjgxODY2IDAuMDAwMTE0NDQxWk01LjM1NDY2IDMuMzExOUw5LjE4NjE2IDIuMzA3OTZMMTAuODYxNyA0LjAyNzk5TDguNDE4MTYgNi40NTYwM0w1LjM1NDY2IDMuMzExOVpNMTMuNzY1NyA0LjA1MTIyTDE1LjQ2ODIgMi4zNTk0N0wxOS4yODMyIDMuNDI1NTNMMTYuMTY5NyA2LjUxOTE2TDEzLjc2NTcgNC4wNTEyMlpNMi44MzYxNiA4LjYxODk1TDMuODkxNjYgNC43NjYzTDYuOTU0MTYgNy45MTA0M0w0LjUxMTE2IDEwLjMzODVMMi44MzYxNiA4LjYxODk1Wk0xNy42MDk3IDcuOTk3MjlMMjAuNzIzMiA0LjkwMzE2TDIxLjcxNjIgOC43NzM0OEwyMC4wMTQyIDEwLjQ2NTJMMTcuNjA5NyA3Ljk5NzI5Wk05Ljg1ODY2IDcuOTM0MTdMMTIuMzAyMiA1LjUwNjEzTDE0LjcwNTcgNy45NzQwNkwxMi4yNjI3IDEwLjQwMjFMOS44NTg2NiA3LjkzNDE3Wk01Ljk1MTY2IDExLjgxNjZMOC4zOTQ2NiA5LjM4ODU3TDEwLjc5OTIgMTEuODU2NUw4LjM1NTY2IDE0LjI4NDVMNS45NTE2NiAxMS44MTY2Wk0xMy43MDMyIDExLjg4MDJMMTYuMTQ2MiA5LjQ1MjJMMTguNTUwMiAxMS45MjAxTDE2LjEwNjcgMTQuMzQ4MkwxMy43MDMyIDExLjg4MDJaTTIuNzg1MTYgMTQuOTYzM0w0LjQ4ODE2IDEzLjI3MUw2Ljg5MTY2IDE1LjczOTRMMy43NzkxNiAxOC44MzI2TDIuNzg1MTYgMTQuOTYzM1pNOS43OTU2NiAxNS43NjI3TDEyLjIzOTIgMTMuMzM0NkwxNC42NDMyIDE1LjgwMjZMMTIuMjAwMiAxOC4yMzA2TDkuNzk1NjYgMTUuNzYyN1pNMTcuNTQ2NyAxNS44MjYzTDE5Ljk5MDIgMTMuMzk4M0wyMS42NjU3IDE1LjExNzhMMjAuNjEwMiAxOC45NzA0TDE3LjU0NjcgMTUuODI2M1pNNS4yMTg2NiAyMC4zMTEyTDguMzMxNjYgMTcuMjE3MUwxMC43MzYyIDE5LjY4NUw5LjAzMzY2IDIxLjM3NzNMNS4yMTg2NiAyMC4zMTEyWk0xMy42NDAyIDE5LjcwODdMMTYuMDgzMiAxNy4yODA3TDE5LjE0NjIgMjAuNDI0OEwxNS4zMTUyIDIxLjQyODNMMTMuNjQwMiAxOS43MDg3WiIgZmlsbD0iYmxhY2siLz4KPC9nPgo8L3N2Zz4K" />
+                            </div>
+                            <button class="icon-btn" id="close-result" aria-label="close">
+                                <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;">
+                                    <path d="M18 6L6 18" /><path d="M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="progress-dots">
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                            <span class="dot active"></span>
+                        </div>
+                    </div>
+
+                    <div class="bank-result">${bankName}</div>
+                    <div class="sub-result">for routing number ${currentRouting}</div>
+
+                    <div class="bottom-fixed">
+                        <button class="continue-btn" id="new-search-btn">New search</button>
+                        <button class="link-btn" id="done-btn">Done</button>
+                    </div>
+                `;
+            }
+
+            // event binding
+            function attachInputEvents() {
+                const inputEl = document.getElementById('routing-input');
+                if (inputEl) {
+                    inputEl.value = currentRouting; // sync
+                    inputEl.addEventListener('input', (e) => {
+                        currentRouting = e.target.value;
+                        errorMsg = ''; // clear error while typing
+                    });
+                }
+
+                document.getElementById('continue-btn')?.addEventListener('click', async (e) => {
+                    const routing = currentRouting.trim();
+                    if (!routing) {
+                        errorMsg = 'Please enter a routing number';
+                        render();
+                        return;
+                    }
+                    if (!/^\d{9}$/.test(routing)) {
+                        errorMsg = 'Routing number must be 9 digits';
+                        render();
+                        return;
+                    }
+
+                    // show loading / disable? for simplicity we just call
+                    try {
+                        // disable button? we'll just trust
+                        const result = await callPlaidSearch(routing);
+                        bankName = result.translation || 'Unknown institution';
+                        currentPage = 'result';
+                        errorMsg = '';
+                        render();
+                    } catch (err) {
+                        errorMsg = 'Lookup failed. Try again.';
+                        render();
+                    }
+                });
+
+                document.getElementById('find-routing-btn')?.addEventListener('click', () => {
+                    alert('In a real app: open routing number helper');
+                });
+
+                document.getElementById('close-btn')?.addEventListener('click', () => {
+                    window.location.href = 'index.html'; // as in original
+                });
+
+                // back button: history.back as original
+                const backBtn = document.querySelector('.icon-btn[onclick="history.back()"]');
+                if (backBtn) {
+                    backBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        history.back();
+                    });
+                }
+            }
+
+            function attachResultEvents() {
+                document.getElementById('back-to-input')?.addEventListener('click', () => {
+                    currentPage = 'input';
+                    render();
+                });
+                document.getElementById('close-result')?.addEventListener('click', () => {
+                    window.location.href = 'index.html';
+                });
+                document.getElementById('new-search-btn')?.addEventListener('click', () => {
+                    currentPage = 'input';
+                    render();
+                });
+                document.getElementById('done-btn')?.addEventListener('click', () => {
+                    window.location.href = 'index.html';
+                });
+            }
+
+            // initial render
+            render();
+        })();
+    </script>
+</body>
+</html>
