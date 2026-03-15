@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Company - Digital Access</title>
+  <style>
+    :root{
+      --brand-blue:#0b4f8a;
+      --brand-blue-dark:#083b67;
+      --brand-blue-soft:#dbeaf8;
+      --accent:#c86a08;
+      --accent-soft:#dfc1a6;
+      --text:#18324b;
+      --card:#f6f6f6;
+      --footer:#f5f5f5;
+      --shadow:0 6px 18px rgba(0,0,0,.12);
+      --radius:8px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:#eef2f5;
+      color:var(--text);
+    }
+
+    .app{
+      max-width:430px;
+      margin:0 auto;
+      min-height:100vh;
+      background:#fff;
+      border-left:1px solid #d8d8d8;
+      border-right:1px solid #d8d8d8;
+    }
+
+    .topbar{
+      background:var(--brand-blue);
+      min-height:58px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:12px 14px;
+      color:#fff;
+    }
+
+    .menu-btn{
+      width:28px;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      flex-shrink:0;
+      cursor:pointer;
+    }
+
+    .menu-btn span{
+      display:block;
+      width:100%;
+      height:4px;
+      border-radius:4px;
+      background:#fff;
+    }
+
+    .brand-logo{
+      width:162px;
+      max-width:100%;
+      display:block;
+    }
+
+    .hero{
+      background:var(--brand-blue-soft);
+      padding:40px 18px 36px;
+    }
+
+    .hero h1{
+      margin:0 0 22px;
+      color:var(--brand-blue-dark);
+      font-size:31px;
+      line-height:1.2;
+      font-weight:700;
+    }
+
+    .login-card{
+      background:var(--card);
+      border-top:4px solid var(--accent);
+      box-shadow:var(--shadow);
+      padding:24px 24px 28px;
+    }
+
+    .login-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:22px;
+      color:#111;
+      margin-bottom:14px;
+    }
+
+    .login-title svg{
+      width:24px;
+      height:24px;
+      color:#666;
+      flex-shrink:0;
+    }
+
+    .divider{
+      height:1px;
+      background:#d3d3d3;
+      margin:8px 0 20px;
+    }
+
+    label{
+      display:block;
+      font-size:15px;
+      font-weight:700;
+      color:#111;
+      margin-bottom:8px;
+    }
+
+    .field{margin-bottom:18px}
+
+    input{
+      width:100%;
+      height:48px;
+      border:2px solid #adb6bf;
+      border-radius:var(--radius);
+      padding:10px 14px;
+      font-size:16px;
+      background:#fff;
+    }
+
+    input:focus{
+      outline:none;
+      border-color:var(--brand-blue);
+      box-shadow:0 0 0 3px rgba(11,79,138,.12);
+    }
+
+    .password-wrap{
+      position:relative;
+    }
+
+    .toggle-btn{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      color:#666;
+      padding:0;
+      font-size:20px;
+      line-height:1;
+    }
+
+    .help-link{
+      display:inline-block;
+      margin:-2px 0 26px;
+      color:#0a58ca;
+      text-decoration:underline;
+      font-size:15px;
+    }
+
+    .sign-btn{
+      width:100%;
+      border:none;
+      background:var(--accent-soft);
+      color:#fff;
+      font-weight:700;
+      font-size:18px;
+      padding:18px;
+      border-radius:var(--radius);
+      cursor:pointer;
+    }
+
+    .section{
+      padding:34px 20px 36px;
+      background:#fff;
+    }
+
+    .section h2{
+      margin:0 0 14px;
+      color:var(--brand-blue-dark);
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    .section p{
+      margin:0 0 28px;
+      font-size:18px;
+      line-height:1.6;
+      color:#183b63;
+    }
+
+    .cta-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-block;
+      min-width:190px;
+      text-align:center;
+      text-decoration:none;
+      color:#fff;
+      font-weight:700;
+      font-size:16px;
+      padding:15px 18px;
+      border-radius:7px;
+      box-shadow:0 2px 4px rgba(0,0,0,.12);
+    }
+
+    .btn-accent{background:var(--accent)}
+    .btn-blue{background:#085ec9}
+
+    .feature-band{
+      background:var(--brand-blue-dark);
+      padding:44px 18px 24px;
+    }
+
+    .feature-card{
+      background:#fff;
+      position:relative;
+      text-align:center;
+      padding:72px 18px 34px;
+      margin:0 auto 84px;
+      max-width:355px;
+      min-height:210px;
+    }
+
+    .feature-card:last-child{
+      margin-bottom:20px;
+    }
+
+    .feature-icon{
+      position:absolute;
+      top:-48px;
+      left:50%;
+      transform:translateX(-50%);
+      width:96px;
+      height:96px;
+      border-radius:50%;
+      background:#f6f6f6;
+      border:1px solid #ebebeb;
+      box-shadow:0 3px 8px rgba(0,0,0,.1);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+
+    .feature-icon svg{
+      width:58px;
+      height:58px;
+      display:block;
+    }
+
+    /* nudges to visually center icons */
+    .enroll-icon{
+      transform:translateX(-4px) translateY(1px);
+    }
+
+    .secure-icon{
+      transform:translateX(-3px) translateY(0);
+    }
+
+    .help-icon{
+      transform:translateX(0) translateY(0);
+    }
+
+    .feature-card h3{
+      margin:0 0 18px;
+      color:#111;
+      font-size:18px;
+      line-height:1.35;
+    }
+
+    .feature-card a{
+      color:#0a58ca;
+      text-decoration:none;
+      font-size:16px;
+    }
+
+    .footer{
+      background:var(--footer);
+      padding:28px 22px 36px;
+      border-top:1px solid #d9d9d9;
+    }
+
+    .footer-logo{
+      width:170px;
+      display:block;
+      margin-bottom:18px;
+    }
+
+    .footer p{
+      margin:0 0 10px;
+      font-size:16px;
+      line-height:1.5;
+      color:#243b53;
+    }
+
+    .footer hr{
+      border:none;
+      border-top:1px solid #ddd;
+      margin:18px 0;
+    }
+
+    .footer-links{
+      margin-bottom:22px;
+      line-height:1.9;
+    }
+
+    .footer-links a{
+      color:#0b4ea2;
+      margin-right:8px;
+      white-space:nowrap;
+    }
+
+    .small{
+      font-size:14px;
+      color:#2f3b48;
+      line-height:1.7;
+      margin-top:14px;
+    }
+
+    /* laptop icon colors */
+    .enrollCircleIcon1{fill:#2d5fa8}
+    .enrollCircleIcon2{fill:#f28c00}
+    .enrollCircleIcon3{fill:#1a4e93}
+    .enrollCircleIcon4{fill:#ffffff}
+    .enrollCircleIcon5{fill:#dfe7f3}
+
+    /* secure/check icon colors */
+    .secureCircleIcon1{fill:#1a4e93}
+    .secureCircleIcon2{fill:#2d5fa8}
+    .secureCircleIcon3{fill:#1c4b84}
+    .secureCircleIcon4{fill:#f28c00}
+    .secureCircleIcon5{fill:#f5a623}
+
+    /* help icon colors */
+    .needHelpCircleIcon1{fill:#2d5fa8}
+    .needHelpCircleIcon2{fill:#f28c00}
+    .needHelpCircleIcon3{fill:#ffffff}
+    .needHelpCircleIcon4{fill:#f5f8fc}
+    .needHelpCircleIcon5{fill:#1a4e93}
+    .needHelpCircleIcon6{fill:#ffd8b0}
+    .needHelpCircleIcon7{opacity:.8}
+
+    @media (max-width:360px){
+      .hero h1{font-size:27px}
+      .section p{font-size:16px}
+      .brand-logo,.footer-logo{width:145px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="menu-btn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Company logo -->
+      <svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" width="161.834" height="28" viewBox="0 0 161.834 28" aria-hidden="true">
+        <g transform="translate(0.01)">
+          <path d="M85.119,20.571H88.44V15.693h4.775V13.2H88.44v-3.01h5.19V7.8H85.119V20.571Zm12.664-5.19h5.4V12.89h-5.4v-2.7h5.709V7.8H94.461V20.571H103.6V18.08H97.782v-2.7Zm16.5-6.539A7.82,7.82,0,0,0,109.719,7.8h-5.086V20.571h5.086a8.355,8.355,0,0,0,3.529-.519c2.387-1.038,3.322-3.114,3.322-5.917A6.452,6.452,0,0,0,114.287,8.842Zm-4.879,9.342h-1.453V10.295H109.3c1.038,0,3.737,0,3.737,3.841C113.041,17.146,111.692,18.08,109.408,18.184Zm11.21-2.8h5.4V12.89h-5.4v-2.7h5.709V7.8H117.3V20.571h9.134V18.08h-5.813v-2.7Zm13.909-1.038v-.1a6.6,6.6,0,0,0,1.868-.623,2.476,2.476,0,0,0,1.142-2.387,3.186,3.186,0,0,0-.83-2.491c-.727-.83-1.557-.934-3.737-.934h-5.5V20.571h3.322V15.589h1.349c1.453,0,1.557.623,1.661,2.076a27.978,27.978,0,0,0,.415,2.906h3.633a16.262,16.262,0,0,1-.519-3.114c-.415-1.972-.519-3.114-2.8-3.114ZM133.282,13.2a5.919,5.919,0,0,1-1.349.1h-1.246V10.191h1.246c.934,0,2.284,0,2.284,1.557A1.47,1.47,0,0,1,133.282,13.2Zm9.342-5.4-4.775,12.871h3.322L142,18.08h4.775l.83,2.595h3.737L146.672,7.8Zm.208,7.889,1.661-5.4h0l1.557,5.4ZM155.288,7.8h-3.425V20.571h8.719V18.08h-5.4ZM41.315,17.353,37.267,7.8H32.7V20.571h2.906V10.606l4.152,9.965h4.463V7.8H41.315Zm8.3-9.55L44.845,20.571h3.322L49,17.976h4.775l.83,2.595h3.737L53.668,7.8Zm.208,7.889,1.661-5.4h0l1.557,5.4Zm12.767,1.349L59.9,7.7H56.263l4.256,12.871h3.944L68.822,7.7H65.5ZM75.569,13.2l-2.6-5.4H69.134L73.7,15.9v4.671h3.322V16l4.671-8.3H78.268Z" transform="translate(1.243 0.293)" fill="#fff"/>
+          <path d="M28.026,14.013A14,14,0,0,0,15.259.1,5.054,5.054,0,0,0,14.013,0a3.892,3.892,0,0,0-1.142.1A13.955,13.955,0,0,0,2.907,5.5h0L2.6,5.917l-.208.311h0A13.933,13.933,0,0,0,6.228,25.639a13.392,13.392,0,0,0,6.539,2.284,10,10,0,0,0,2.491,0A14,14,0,0,0,28.026,14.013Zm-7.577,10.38H18.477a17.711,17.711,0,0,0,1.349-3.944h3.218a14.441,14.441,0,0,1-2.595,3.944ZM4.879,20.449H8.1a17.711,17.711,0,0,0,1.349,3.944H7.578A14.781,14.781,0,0,1,4.879,20.449ZM.935,14.428H2.7a14.238,14.238,0,0,0,.934,5.086H2.076A12.147,12.147,0,0,1,.935,14.428ZM5.087,7.266A12.571,12.571,0,0,1,7.578,3.633H9.55c-.415,1.038-.83,1.972-1.142,3.01h0l-.1.415-.1.415h0v.1H4.879Zm17.957.311H19.826a17.711,17.711,0,0,0-1.349-3.944h1.972A12.4,12.4,0,0,1,23.044,7.577Zm4.048,6.02H25.328a14.238,14.238,0,0,0-.934-5.086h1.453A14.091,14.091,0,0,1,27.092,13.6Zm-2.7,0H20.553a27.257,27.257,0,0,0-.519-5.086h3.425a13.832,13.832,0,0,1,.934,5.086ZM9.135,7.266a15.323,15.323,0,0,1,1.349-3.633h3.01V7.577H9.135ZM10.069,2.8H8.616a7.249,7.249,0,0,1,2.491-1.349A6.664,6.664,0,0,0,10.069,2.8ZM13.6.934V2.8H11.107A4.144,4.144,0,0,1,13.6.934Zm.83,1.868V.934A4.465,4.465,0,0,1,16.92,2.8Zm3.01.934a16.247,16.247,0,0,1,1.453,3.944H14.429V3.737ZM13.6,8.512V13.6H8.3a27.257,27.257,0,0,1,.519-5.086H13.6Zm0,5.917v5.086H8.927A20.685,20.685,0,0,1,8.3,14.428Zm0,6.02v3.944h-3.01a17.2,17.2,0,0,1-1.453-3.841Zm0,4.775v1.868a4.465,4.465,0,0,1-2.491-1.868Zm.83,0H16.92a4.144,4.144,0,0,1-2.491,1.868Zm0-.83V20.449h4.463a18.014,18.014,0,0,1-1.453,3.944Zm0-4.775V14.532h5.19a27.257,27.257,0,0,1-.519,5.086Zm0-6.02V8.512H19.1a28.183,28.183,0,0,1,.519,5.086ZM17.958,2.8A12.594,12.594,0,0,0,16.92,1.349,7.491,7.491,0,0,1,19.411,2.8ZM7.993,8.512A28.183,28.183,0,0,0,7.474,13.6H3.633a16.943,16.943,0,0,1,.934-5.086H7.993ZM2.7,13.6H.935A12.147,12.147,0,0,1,2.076,8.512H3.633A16.366,16.366,0,0,0,2.7,13.6Zm.934.83H7.474a27.257,27.257,0,0,0,.519,5.086H4.568A13.832,13.832,0,0,1,3.633,14.428Zm6.436,10.8a6.664,6.664,0,0,0,1.038,1.349,9.556,9.556,0,0,1-2.491-1.349Zm7.889,0h1.453a8.336,8.336,0,0,1-2.491,1.349A6.664,6.664,0,0,0,17.958,25.223Zm2.076-5.605a28.183,28.183,0,0,0,.519-5.086h3.841a16.943,16.943,0,0,1-.934,5.086Zm5.294-5.19h1.765a14.091,14.091,0,0,1-1.246,5.086H24.29a16.43,16.43,0,0,0,1.038-5.086Zm.1-6.851H23.978a15.4,15.4,0,0,0-2.387-3.944h.415a13.607,13.607,0,0,1,3.425,3.944ZM5.917,3.737h.415a13.188,13.188,0,0,0-1.868,2.8h0l-.208.311-.208.415h0l-.1.311H2.6a10.941,10.941,0,0,1,.727-1.142A12.85,12.85,0,0,1,5.917,3.737ZM2.6,20.449H3.945a15.4,15.4,0,0,0,2.387,3.944H5.917A13.465,13.465,0,0,1,2.6,20.449Zm4.671,4.775Zm14.74-.83h-.415a11.821,11.821,0,0,0,2.387-3.944h1.349a10.916,10.916,0,0,1-3.322,3.944Z" fill="#fff"/>
+        </g>
+      </svg>
+    </header>
+
+    <section class="hero">
+      <h1>Welcome to Digital Access</h1>
+
+      <div class="login-card">
+        <div class="login-title">
+          <svg viewBox="0 0 448 512" aria-hidden="true">
+            <path fill="currentColor" d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/>
+          </svg>
+          <span>Sign In</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="Enter username">
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input id="password" type="password" placeholder="Enter password">
+            <button class="toggle-btn" type="button" onclick="togglePassword()">👁</button>
+          </div>
+        </div>
+
+        <a href="#" class="help-link">Sign In Help</a>
+        <button class="sign-btn" type="button">Sign In</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Not a customer yet?</h2>
+      <p>
+        Join now and enjoy secure access, dependable support, and services built around your needs.
+      </p>
+
+      <div class="cta-wrap">
+        <a href="#" class="btn btn-accent">Become a Member</a>
+        <a href="#" class="btn btn-blue">Learn More</a>
+      </div>
+    </section>
+
+    <section class="feature-band">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="enroll-icon" viewBox="0 0 125 95" aria-hidden="true">
+            <g>
+              <g transform="translate(8.302 0)">
+                <g>
+                  <g>
+                    <g>
+                      <g>
+                        <path d="M121.288 52.481l23.921.028a1.345 1.345 0 0 0 1.351-1.323l.028-38.358L120.5 12.8" class="enrollCircleIcon1" transform="translate(-94.89 -9.198)"></path>
+                        <path d="M57.183 12.628L29.528 12.6 29.5 50.958a1.345 1.345 0 0 0 1.323 1.351l25.766.028" class="enrollCircleIcon2" transform="translate(-29.5 -9.054)"></path>
+                        <path d="M81.27 2.953V1.644a1.5 1.5 0 0 0-1.323-1.61L30.951 0A1.486 1.486 0 0 0 29.6 1.577v2.618l51.67.067V2.953z" class="enrollCircleIcon3" transform="translate(-29.572 0)"></path>
+                      </g>
+                      <circle cx="0.394" cy="0.394" r="0.394" class="enrollCircleIcon4" transform="translate(1.97 1.407)"></circle>
+                      <circle cx="0.394" cy="0.394" r="0.394" class="enrollCircleIcon4" transform="translate(3.687 1.407)"></circle>
+                      <circle cx="0.394" cy="0.394" r="0.394" class="enrollCircleIcon4" transform="translate(5.403 1.407)"></circle>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g transform="translate(13.734 40.103)">
+                <path d="M109.344 142.5H104.7a4.96 4.96 0 0 1 4.953 4.953.312.312 0 0 1-.31.31h4.644a.312.312 0 0 0 .31-.31 4.925 4.925 0 0 0-4.953-4.953z" class="enrollCircleIcon5" transform="translate(-88.968 -142.5)"></path>
+                <path d="M69.485 147.453a4.96 4.96 0 0 0-4.953-4.953H53.753a4.96 4.96 0 0 0-4.953 4.953.312.312 0 0 0 .31.31l20.066.028a.36.36 0 0 0 .309-.338z" class="enrollCircleIcon3" transform="translate(-48.8 -142.5)"></path>
+              </g>
+              <g transform="translate(0 16.801)">
+                <g>
+                  <path d="M1.041 59.8A1.052 1.052 0 0 0 0 60.813v28.312a1.052 1.052 0 0 0 1.013 1.041h7.964L9.006 59.8z" class="enrollCircleIcon1" transform="translate(0 -59.772)"></path>
+                  <path d="M40.583 89.081l.028-26.623v-1.717A1.052 1.052 0 0 0 39.6 59.7h-7.57L32 90.094h7.57a1.009 1.009 0 0 0 1.013-1.013z" class="enrollCircleIcon1" transform="translate(-22.994 -59.7)"></path>
+                </g>
+                <path d="M0 0h14.437v23.977H0z" class="enrollCircleIcon4" transform="translate(1.548 2.392)"></path>
+                <path d="M29.648 64.007h-2.2a.252.252 0 0 1-.253-.253.252.252 0 0 1 .253-.253h2.2a.252.252 0 0 1 .253.253.252.252 0 0 1-.253.253z" class="enrollCircleIcon4" transform="translate(-19.545 -62.431)"></path>
+                <circle cx="1.041" cy="1.041" r="1.041" class="enrollCircleIcon4" transform="translate(7.964 27.214)"></circle>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <h3>Don't have online access?</h3>
+        <a href="#">Enroll in digital banking »</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="secure-icon" viewBox="0 0 95 95" aria-hidden="true">
+            <g>
+              <g>
+                <g transform="translate(6.269 0)">
+                  <path d="M29.845 28.779V16.435a12.465 12.465 0 0 1 24.931 0v2.856c0 .266-.024.532-.024.8h3.97c.024-.266.024-.532.024-.8v-2.88a16.423 16.423 0 0 0-32.846 0v12.344c0 .266 0 .532.024.8h3.946c0-.268-.025-.534-.025-.776z" class="secureCircleIcon1" transform="translate(-25.9 0)"></path>
+                </g>
+                <path d="M92.1 143.982h16.386a5.811 5.811 0 0 0 5.809-5.809V113H92.1" class="secureCircleIcon2" transform="translate(-69.808 -85.649)"></path>
+                <path d="M22.292 113H0v25.148a5.811 5.811 0 0 0 5.809 5.809h16.483" class="secureCircleIcon3" transform="translate(0 -85.649)"></path>
+                <path d="M0 0h6.656v6.656H0z" class="secureCircleIcon4" transform="translate(19.243 39.962)"></path>
+              </g>
+              <g transform="translate(29.064 33.962)">
+                <circle cx="13.482" cy="13.482" r="13.482" class="secureCircleIcon5" transform="rotate(-80.782 15.642 13.308)"></circle>
+              </g>
+              <path d="M156.5 193.3a1.644 1.644 0 0 1-1.065-.557l-3.606-4.454a1.55 1.55 0 1 1 2.42-1.936l2.517 3.122 7.794-7.794a1.54 1.54 0 0 1 2.178 2.178l-9 9.028a1.515 1.515 0 0 1-1.162.46c-.05-.047-.076-.047-.076-.047z" class="secureCircleIcon4" transform="translate(-114.821 -137.36)"></path>
+            </g>
+          </svg>
+        </div>
+        <h3>Need help protecting your account?</h3>
+        <a href="#">Visit the security center »</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg class="help-icon" viewBox="0 0 70 70" aria-hidden="true">
+            <g transform="translate(-1.468 -52.44)">
+              <circle cx="29.996" cy="29.996" r="29.996" class="needHelpCircleIcon1" transform="translate(1.468 52.44)"></circle>
+              <path d="M73.115 79.3A29.992 29.992 0 0 1 30.7 121.715z" class="needHelpCircleIcon2" transform="translate(-20.443 -18.072)"></path>
+              <circle cx="26.997" cy="26.997" r="26.997" class="needHelpCircleIcon3" transform="translate(4.468 55.439)"></circle>
+              <path d="M101.4 60a27 27 0 1 1 0 53.993z" class="needHelpCircleIcon4" transform="translate(-69.935 -4.561)"></path>
+              <g transform="translate(13.467 59.549)">
+                <path d="M81.436 94.517c0 5.849-8.069 20.337-14.968 20.337S51.5 100.367 51.5 94.517c0-11.7 7.349-20.817 14.968-20.817s14.968 9.149 14.968 20.817z" class="needHelpCircleIcon5" transform="translate(-48.47 -73.7)"></path>
+                <path d="M59.4 184.7c-7.169 0-18 1.2-18 7.259a23.022 23.022 0 0 0 .96 6.479 27.683 27.683 0 0 0 34.076-.03 21.989 21.989 0 0 0 .96-6.479C77.4 185.87 66.537 184.7 59.4 184.7z" class="needHelpCircleIcon2" transform="translate(-41.4 -151.404)"></path>
+                <path d="M101.4 184.7v19.588c6.419 0 13.5-2.55 17.038-5.279a26.193 26.193 0 0 0 .96-7.079c.002-6.06-10.859-7.23-17.998-7.23z" class="needHelpCircleIcon1" transform="translate(-83.402 -151.404)"></path>
+                <g transform="translate(7.499 3.33)">
+                  <path d="M92.259 163.3l-4.02.36-4.02-.36s.6 6.629-1.62 6.629h11.28c-2.22 0-1.62-6.629-1.62-6.629z" class="needHelpCircleIcon6" transform="translate(-77.741 -139.753)"></path>
+                  <path d="M76.9 110.237c6.629 0 10.5-8.009 10.5-14.608S83.5 84.8 76.9 84.8c-6.629 0-10.5 4.2-10.5 10.829s3.87 14.608 10.5 14.608z" class="needHelpCircleIcon6" transform="translate(-66.4 -84.8)"></path>
+                  <path d="M88.239 194.609L82.6 185.4h11.279z" class="needHelpCircleIcon6" transform="translate(-77.741 -155.224)"></path>
+                </g>
+                <path d="M101.4 124.185l5.639-9.209c-1.74 0-1.74-4.049-1.68-5.819 4.169-2.4 6.539-8.4 6.539-13.528C111.9 89 108 84.8 101.4 84.8z" class="needHelpCircleIcon2" transform="translate(-83.402 -81.47)"></path>
+                <path d="M100.637 94.116s-7.049.84-12.6-2.85S80.6 80.708 80.6 80.708s7.049-.84 12.6 2.85 7.437 10.558 7.437 10.558z" class="needHelpCircleIcon5" transform="translate(-68.841 -78.548)"></path>
+                <g transform="translate(6.577 15.568)">
+                  <path d="M65.119 130.339c-.72.12-1.5-1.08-1.74-2.4-.21-1.32.24-2.22.93-2.34z" class="needHelpCircleIcon6" transform="translate(-63.327 -125.6)"></path>
+                  <path d="M133.4 130.339c.72.12 1.5-1.08 1.74-2.4.21-1.32-.24-2.22-.93-2.34z" class="needHelpCircleIcon2" transform="translate(-112.381 -125.6)"></path>
+                </g>
+                <path d="M66.82 81.3a17.6 17.6 0 0 1-2.07 8.819 17.711 17.711 0 0 1-6.479 6.3A16.118 16.118 0 0 1 66.82 81.3z" class="needHelpCircleIcon5" transform="translate(-53.202 -79.02)"></path>
+                <g class="needHelpCircleIcon7" transform="translate(14.008 27.717)">
+                  <path d="M88.1 167.63a8.534 8.534 0 0 0 7.979 0 8.535 8.535 0 0 1 0-1.53 7.787 7.787 0 0 1-3.99 1.08 7.868 7.868 0 0 1-3.99-1.08 8.5 8.5 0 0 1 .001 1.53z" class="needHelpCircleIcon5" transform="translate(-88.1 -166.1)"></path>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <h3>Need help with your account?</h3>
+        <a href="#">Contact support »</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <svg class="footer-logo" xmlns="http://www.w3.org/2000/svg" width="161.834" height="28" viewBox="0 0 161.834 28" aria-hidden="true">
+        <g transform="translate(0.01)">
+          <path d="M85.119,20.571H88.44V15.693h4.775V13.2H88.44v-3.01h5.19V7.8H85.119V20.571Zm12.664-5.19h5.4V12.89h-5.4v-2.7h5.709V7.8H94.461V20.571H103.6V18.08H97.782v-2.7Zm16.5-6.539A7.82,7.82,0,0,0,109.719,7.8h-5.086V20.571h5.086a8.355,8.355,0,0,0,3.529-.519c2.387-1.038,3.322-3.114,3.322-5.917A6.452,6.452,0,0,0,114.287,8.842Zm-4.879,9.342h-1.453V10.295H109.3c1.038,0,3.737,0,3.737,3.841C113.041,17.146,111.692,18.08,109.408,18.184Zm11.21-2.8h5.4V12.89h-5.4v-2.7h5.709V7.8H117.3V20.571h9.134V18.08h-5.813v-2.7Zm13.909-1.038v-.1a6.6,6.6,0,0,0,1.868-.623,2.476,2.476,0,0,0,1.142-2.387,3.186,3.186,0,0,0-.83-2.491c-.727-.83-1.557-.934-3.737-.934h-5.5V20.571h3.322V15.589h1.349c1.453,0,1.557.623,1.661,2.076a27.978,27.978,0,0,0,.415,2.906h3.633a16.262,16.262,0,0,1-.519-3.114c-.415-1.972-.519-3.114-2.8-3.114ZM133.282,13.2a5.919,5.919,0,0,1-1.349.1h-1.246V10.191h1.246c.934,0,2.284,0,2.284,1.557A1.47,1.47,0,0,1,133.282,13.2Zm9.342-5.4-4.775,12.871h3.322L142,18.08h4.775l.83,2.595h3.737L146.672,7.8Zm.208,7.889,1.661-5.4h0l1.557,5.4ZM155.288,7.8h-3.425V20.571h8.719V18.08h-5.4ZM41.315,17.353,37.267,7.8H32.7V20.571h2.906V10.606l4.152,9.965h4.463V7.8H41.315Zm8.3-9.55L44.845,20.571h3.322L49,17.976h4.775l.83,2.595h3.737L53.668,7.8Zm.208,7.889,1.661-5.4h0l1.557,5.4Zm12.767,1.349L59.9,7.7H56.263l4.256,12.871h3.944L68.822,7.7H65.5ZM75.569,13.2l-2.6-5.4H69.134L73.7,15.9v4.671h3.322V16l4.671-8.3H78.268Z" transform="translate(1.243 0.293)" fill="#0b4f8a"/>
+          <path d="M28.026,14.013A14,14,0,0,0,15.259.1,5.054,5.054,0,0,0,14.013,0a3.892,3.892,0,0,0-1.142.1A13.955,13.955,0,0,0,2.907,5.5h0L2.6,5.917l-.208.311h0A13.933,13.933,0,0,0,6.228,25.639a13.392,13.392,0,0,0,6.539,2.284,10,10,0,0,0,2.491,0A14,14,0,0,0,28.026,14.013Zm-7.577,10.38H18.477a17.711,17.711,0,0,0,1.349-3.944h3.218a14.441,14.441,0,0,1-2.595,3.944ZM4.879,20.449H8.1a17.711,17.711,0,0,0,1.349,3.944H7.578A14.781,14.781,0,0,1,4.879,20.449ZM.935,14.428H2.7a14.238,14.238,0,0,0,.934,5.086H2.076A12.147,12.147,0,0,1,.935,14.428ZM5.087,7.266A12.571,12.571,0,0,1,7.578,3.633H9.55c-.415,1.038-.83,1.972-1.142,3.01h0l-.1.415-.1.415h0v.1H4.879Zm17.957.311H19.826a17.711,17.711,0,0,0-1.349-3.944h1.972A12.4,12.4,0,0,1,23.044,7.577Zm4.048,6.02H25.328a14.238,14.238,0,0,0-.934-5.086h1.453A14.091,14.091,0,0,1,27.092,13.6Zm-2.7,0H20.553a27.257,27.257,0,0,0-.519-5.086h3.425a13.832,13.832,0,0,1,.934,5.086ZM9.135,7.266a15.323,15.323,0,0,1,1.349-3.633h3.01V7.577H9.135ZM10.069,2.8H8.616a7.249,7.249,0,0,1,2.491-1.349A6.664,6.664,0,0,0,10.069,2.8ZM13.6.934V2.8H11.107A4.144,4.144,0,0,1,13.6.934Zm.83,1.868V.934A4.465,4.465,0,0,1,16.92,2.8Zm3.01.934a16.247,16.247,0,0,1,1.453,3.944H14.429V3.737ZM13.6,8.512V13.6H8.3a27.257,27.257,0,0,1,.519-5.086H13.6Zm0,5.917v5.086H8.927A20.685,20.685,0,0,1,8.3,14.428Zm0,6.02v3.944h-3.01a17.2,17.2,0,0,1-1.453-3.841Zm0,4.775v1.868a4.465,4.465,0,0,1-2.491-1.868Zm.83,0H16.92a4.144,4.144,0,0,1-2.491,1.868Zm0-.83V20.449h4.463a18.014,18.014,0,0,1-1.453,3.944Zm0-4.775V14.532h5.19a27.257,27.257,0,0,1-.519,5.086Zm0-6.02V8.512H19.1a28.183,28.183,0,0,1,.519,5.086ZM17.958,2.8A12.594,12.594,0,0,0,16.92,1.349,7.491,7.491,0,0,1,19.411,2.8ZM7.993,8.512A28.183,28.183,0,0,0,7.474,13.6H3.633a16.943,16.943,0,0,1,.934-5.086H7.993ZM2.7,13.6H.935A12.147,12.147,0,0,1,2.076,8.512H3.633A16.366,16.366,0,0,0,2.7,13.6Zm.934.83H7.474a27.257,27.257,0,0,0,.519,5.086H4.568A13.832,13.832,0,0,1,3.633,14.428Zm6.436,10.8a6.664,6.664,0,0,0,1.038,1.349,9.556,9.556,0,0,1-2.491-1.349Zm7.889,0h1.453a8.336,8.336,0,0,1-2.491,1.349A6.664,6.664,0,0,0,17.958,25.223Zm2.076-5.605a28.183,28.183,0,0,0,.519-5.086h3.841a16.943,16.943,0,0,1-.934,5.086Zm5.294-5.19h1.765a14.091,14.091,0,0,1-1.246,5.086H24.29a16.43,16.43,0,0,0,1.038-5.086Zm.1-6.851H23.978a15.4,15.4,0,0,0-2.387-3.944h.415a13.607,13.607,0,0,1,3.425,3.944ZM5.917,3.737h.415a13.188,13.188,0,0,0-1.868,2.8h0l-.208.311-.208.415h0l-.1.311H2.6a10.941,10.941,0,0,1,.727-1.142A12.85,12.85,0,0,1,5.917,3.737ZM2.6,20.449H3.945a15.4,15.4,0,0,0,2.387,3.944H5.917A13.465,13.465,0,0,1,2.6,20.449Zm4.671,4.775Zm14.74-.83h-.415a11.821,11.821,0,0,0,2.387-3.944h1.349a10.916,10.916,0,0,1-3.322,3.944Z" fill="#0b4f8a"/>
+        </g>
+      </svg>
+
+      <p><strong>24/7 Member Services:</strong> 1-800-123-4567</p>
+      <p><strong>Routing Number:</strong> 123456789</p>
+
+      <hr>
+
+      <div class="footer-links">
+        <a href="#">About Us</a> |
+        <a href="#">Contact Us</a> |
+        <a href="#">Privacy</a> |
+        <a href="#">Security</a> |
+        <a href="#">Accessibility</a>
+      </div>
+
+      <p><strong>© 2026 Your Company.</strong> All rights reserved.</p>
+
+      <div class="small">
+        APY = Annual Percentage Yield | APR = Annual Percentage Rate<br><br>
+        Rates and terms may vary based on evaluation criteria. Message and data rates may apply.
+        Cookies may be used to improve website performance and user experience.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById("password");
+      input.type = input.type === "password" ? "text" : "password";
+    }
+  </script>
+</body>
+</html>
