@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f3f3;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      
+    }
+
+    .page {
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      border: 1px solid #d8d8d8;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      padding: 22px 20px;
+      border-bottom: 1px solid #d9d9d9;
+      background: #fff;
+    }
+
+    .logo {
+      height: 42px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .content {
+      padding: 36px 36px 24px;
+    }
+
+    h1 {
+      font-size: 25px;
+      line-height: 1.3;
+      margin-bottom: 28px;
+      color: #1d2430;
+    }
+
+    .intro {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #243041;
+      margin-bottom: 36px;
+      max-width: 310px;
+    }
+
+    label {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #243041;
+    }
+
+    .field {
+      margin-bottom: 34px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      height: 56px;
+      border: 2px solid #c9c9c9;
+      background: #fff;
+      padding: 0 16px;
+      font-size: 16px;
+      color: #222;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: #0b6b4b;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      color: #243041;
+      text-decoration: underline;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 4px 0 28px;
+    }
+
+    .remember input {
+      width: 30px;
+      height: 30px;
+      accent-color: #0b6b4b;
+      cursor: pointer;
+    }
+
+    .remember span {
+      font-size: 17px;
+      color: #243041;
+    }
+
+    a {
+      color: #0057b8;
+      text-decoration: underline;
+    }
+
+    .trouble-link {
+      display: inline-block;
+      margin-bottom: 34px;
+      font-size: 17px;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 58px;
+      border: none;
+      background: #d84a05;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 24px;
+    }
+
+    .login-btn:hover {
+      opacity: 0.95;
+    }
+
+    .cancel-btn {
+      display: block;
+      width: fit-content;
+      margin: 0 auto 54px;
+      background: none;
+      border: none;
+      color: #243041;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .help-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #243041;
+    }
+
+    .help-links a {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 34px;
+    }
+
+    .footer-logo-wrap {
+      margin: 46px 0 26px;
+    }
+
+    .footer-logo {
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px 20px;
+      margin-bottom: 34px;
+    }
+
+    .footer-grid h3 {
+      font-size: 18px;
+      margin-bottom: 18px;
+      color: #243041;
+    }
+
+    .footer-grid a {
+      display: block;
+      margin-bottom: 18px;
+      font-size: 17px;
+      color: #243041;
+      text-decoration: none;
+    }
+
+    .footer-grid a:hover {
+      text-decoration: underline;
+    }
+
+    .sub-footer {
+      background: #f6f6f6;
+      border-top: 1px solid #e3e3e3;
+      padding: 28px 20px 34px;
+      text-align: center;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      text-decoration: none;
+      color: #333;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px 26px;
+    }
+
+    .legal-links a {
+      text-decoration: none;
+      color: #243041;
+      font-size: 15px;
+    }
+
+    .legal-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        padding: 28px 20px 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .intro,
+      label,
+      .remember span,
+      .trouble-link,
+      .help-links a,
+      .footer-grid a {
+        font-size: 16px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <!-- Replace logo.png with your company logo -->
+      <img src="logo.png" alt="Company Logo" class="logo" />
+    </div>
+
+    <div class="content">
+      <h1>Login to connect to Your Company</h1>
+      <p class="intro">
+        To link your accounts, select a secure log in and enter your credentials to continue.
+      </p>
+
+      <div class="field">
+        <label for="loginType">Select secure login</label>
+        <select id="loginType">
+          <option>Personal / Small Business</option>
+          <option>Business</option>
+          <option>Corporate</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="userId">User ID</label>
+        <input type="text" id="userId" placeholder="" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="password" />
+          <button type="button" class="toggle-btn" onclick="togglePassword()">Show</button>
+        </div>
+      </div>
+
+      <label class="remember">
+        <input type="checkbox" />
+        <span>Remember User ID</span>
+      </label>
+
+      <a href="#" class="trouble-link">Trouble logging in?</a>
+
+      <button class="login-btn">Log In</button>
+      <button class="cancel-btn">Cancel</button>
+
+      <div class="help-title">Need help?</div>
+
+      <div class="help-links">
+        <a href="#">Find quick answers in our FAQs</a>
+        <a href="#">Contact Us</a>
+      </div>
+
+      <div class="footer-logo-wrap">
+        <img src="logo.png" alt="Company Logo" class="footer-logo" />
+      </div>
+
+      <div class="footer-grid">
+        <div>
+          <h3>Company</h3>
+          <a href="#">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">Community</a>
+        </div>
+
+        <div>
+          <h3>Help</h3>
+          <a href="#">Contact Us</a>
+        </div>
+
+        <div>
+          <h3>Resources</h3>
+          <a href="#">Branch Locator</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-footer">
+      <div class="socials">
+        <a href="#">f</a>
+        <a href="#">◎</a>
+        <a href="#">in</a>
+        <a href="#">𝕏</a>
+        <a href="#">▶</a>
+      </div>
+
+      <div class="legal-links">
+        <a href="#">Site Map</a>
+        <a href="#">About Our Ads</a>
+        <a href="#">Site Requirements</a>
+        <a href="#">Security &amp; Legal</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Privacy Rights</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      const button = document.querySelector(".toggle-btn");
+
+      if (password.type === "password") {
+        password.type = "text";
+        button.textContent = "Hide";
+      } else {
+        password.type = "password";
+        button.textContent = "Show";
+      }
+    }
+  </script>
+</body>
+</html>
