@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Secure Sign In</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#f5f6f8;
+color:#111;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+height:90px;
+background:#ffffff;
+border-bottom:1px solid #e5e7eb;
+display:flex;
+align-items:center;
+padding:0 20px;
+}
+
+.brand{
+font-size:32px;
+font-weight:700;
+color:#1565c0;
+letter-spacing:0.5px;
+}
+
+.hero-strip{
+height:56px;
+background:#eef3f8;
+border-bottom:1px solid #dde5ee;
+}
+
+.container{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+padding:60px 20px;
+}
+
+.card{
+width:100%;
+max-width:420px;
+text-align:center;
+}
+.top-logo-only{
+  height:70px;
+  width:70px;
+}
+
+.icon-wrap{
+width:90px;
+height:90px;
+margin:0 auto 24px;
+/* border:3px solid #0b72b9;
+border-radius:20px; */
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.logo{
+width:60px;
+height:auto;
+}
+
+h1{
+font-size:24px;
+margin-bottom:34px;
+font-weight:500;
+}
+
+.field-group{
+text-align:left;
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-size:14px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+input{
+width:100%;
+height:60px;
+border:1px solid #cfcfcf;
+border-radius:14px;
+padding:0 18px;
+font-size:18px;
+outline:none;
+background:#fff;
+}
+
+input:focus{
+border-color:#0b72b9;
+box-shadow:0 0 0 3px rgba(11,114,185,0.12);
+}
+
+/* italic placeholder */
+input::placeholder{
+font-style:italic;
+}
+
+input::-webkit-input-placeholder{
+font-style:italic;
+}
+
+input:-ms-input-placeholder{
+font-style:italic;
+}
+
+.help-link{
+display:inline-block;
+margin:6px 0 28px;
+color:#0b72b9;
+text-decoration:none;
+font-size:15px;
+}
+
+.btn{
+width:100%;
+height:58px;
+border:none;
+border-radius:14px;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+margin-bottom:18px;
+}
+
+.btn-primary{
+background:#d9dde3;
+color:#8d939b;
+}
+
+.btn-secondary{
+background:transparent;
+color:#0b72b9;
+}
+
+.info-link{
+display:inline-block;
+margin-top:10px;
+color:#333;
+text-decoration:none;
+font-size:12px;
+}
+
+footer{
+background:#2d2d2f;
+color:#fff;
+padding:26px 20px 40px;
+margin-top:40px;
+}
+
+.footer-inner{
+max-width:420px;
+margin:0 auto;
+}
+
+.footer-line{
+height:4px;
+width:100%;
+background:#6a6a6d;
+margin-bottom:26px;
+}
+
+.footer-copy{
+font-weight:700;
+margin-bottom:22px;
+}
+
+.footer-link{
+color:#fff;
+text-decoration:none;
+display:inline-block;
+margin-bottom:30px;
+}
+
+.footer-divider{
+border-top:1px solid #5b5b5f;
+margin:10px 0 28px;
+}
+
+.footer-title{
+font-size:15px;
+font-weight:700;
+margin-bottom:12px;
+}
+
+
+.footer-logo{
+  width:80px;
+  height:auto;
+  opacity:0.9;
+}
+.footer-text{
+line-height:1.5;
+font-size:14px;
+color:#f3f4f6;
+max-width:360px;
+}
+
+.footer-brand{
+margin-top:40px;
+font-size:40px;
+font-weight:700;
+opacity:0.9;
+}
+
+@media (max-width:480px){
+
+.container{
+padding:40px 16px;
+}
+
+h1{
+font-size:22px;
+}
+
+input{
+height:56px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="brand">
+  <img src="./CITI/citilogo.png" alt="Bank Logo" class="top-logo-only">
+</div>
+</header>
+
+<div class="hero-strip"></div>
+
+<main class="container">
+
+<section class="card">
+
+<div class="icon-wrap">
+<img src="./CITI/lock.png" alt="Bank Logo" class="logo">
+</div>
+
+<h1>Sign on to Your Account</h1>
+
+<form>
+
+<div class="field-group">
+<label for="userId">User ID</label>
+<input id="userId" type="text" placeholder="User ID" />
+</div>
+
+<div class="field-group">
+<label for="password">Password</label>
+<input id="password" type="password" placeholder="Password" />
+</div>
+
+<a href="#" class="help-link">Forgot User ID or Password?</a>
+
+<button type="submit" class="btn btn-primary">Sign on</button>
+<button type="button" class="btn btn-secondary">Cancel</button>
+
+</form>
+
+<a href="#" class="info-link">Sign On Information</a>
+
+</section>
+
+</main>
+
+<footer>
+
+<div class="footer-inner">
+
+<div class="footer-line"></div>
+
+<div class="footer-copy">© 2026 Citigroup Inc</div>
+
+<a href="#" class="footer-link">Privacy Statement</a>
+
+<div class="footer-divider"></div>
+
+<div class="footer-title">Important Legal Disclosures & Information</div>
+
+<p class="footer-text">
+Citi, Citi and Arc Design and other marks shown herein are service marks of Citigroup Inc. used and registered throughout the world.
+</p>
+
+<div class="footer-brand">
+  <img src="./CITI/citilogo.png" alt="Bank Logo" class="footer-logo">
+</div>
+
+</div>
+
+</footer>
+
+</body>
+</html>
