@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Company Banking UI</title>
+  <style>
+    :root {
+      --bg: #f5f4f7;
+      --card: #ffffff;
+      --ink: #2d2140;
+      --muted: #6d6579;
+      --primary: #7b5aad;
+      --primary-dark: #34154f;
+      --line: #ddd6e8;
+      --accent: #bfeeff;
+      --link: #6f52a3;
+      --border: #9f98aa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .phone {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg);
+      border-left: 1px solid #d8d8d8;
+      border-right: 1px solid #d8d8d8;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .top-panel {
+      background: #fff;
+      padding: 28px 26px 34px;
+    }
+
+    .brand {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .brand img {
+      max-width: 180px;
+      max-height: 48px;
+      object-fit: contain;
+    }
+
+    .fdic-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .fdic-row img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .fdic-text {
+      font-size: 14px;
+      line-height: 1.35;
+      color: #5d5963;
+    }
+
+    .btn {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      padding: 18px 20px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      margin-bottom: 26px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid #cbb8e6;
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .link-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .link-list a,
+    .inline-link {
+      color: var(--link);
+      font-size: 17px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .plain-text {
+      font-size: 16px;
+      color: #4f4a56;
+      margin-top: 6px;
+    }
+
+    .promo {
+      background: var(--primary-dark);
+      color: white;
+      text-align: center;
+      padding: 48px 28px 44px;
+    }
+
+    .jar {
+      margin-bottom: 26px;
+    }
+
+    .jar img {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.45;
+      margin-bottom: 22px;
+    }
+
+    .headline {
+      font-size: 31px;
+      line-height: 1.25;
+      font-weight: 300;
+      margin: 0 0 24px;
+    }
+
+    .subcopy,
+    .feature,
+    .fineprint-hero {
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .feature {
+      margin: 0 0 28px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 19px;
+      margin-bottom: 2px;
+    }
+
+    .cta-stack {
+      display: grid;
+      gap: 16px;
+      max-width: 210px;
+      margin: 30px auto 28px;
+    }
+
+    .btn-light {
+      background: #cfc3f1;
+      color: #2e1d4e;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      color: #d9ccfb;
+      border: 2px solid #bcaee6;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .disclosures {
+      background: #f7f7f7;
+      padding: 28px 26px 34px;
+      border-top: 1px solid #ddd;
+    }
+
+    .disclosures h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #4a4650;
+    }
+
+    .disclosures p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #55515b;
+      margin: 0 0 18px;
+    }
+
+    .footer {
+      background: var(--primary-dark);
+      color: #CABCE3;
+      text-align: center;
+    }
+
+    .footer-logo {
+      padding-top: 42px;
+      margin-bottom: 24px;
+    }
+
+    .footer-logo img {
+      max-width: 150px;
+      max-height: 44px;
+      object-fit: contain;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 18px;
+      padding: 0 25px 36px;
+    }
+
+    .footer-links a {
+      color: #CABCE3;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .copyright {
+      background: #000;
+      color: #fff;
+      padding: 18px 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* SIGN IN SCREEN */
+    .signin-panel {
+      padding: 28px 26px 34px;
+      background: #fff;
+      min-height: 100vh;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--link);
+      font-size: 18px;
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin: 10px 0 28px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 18px;
+      color: #615969;
+      margin-bottom: 12px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input {
+      width: 100%;
+      height: 56px;
+      border: 1.5px solid #8f8796;
+      border-radius: 6px;
+      background: #fff;
+      padding: 0 16px;
+      font-size: 18px;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .input.password {
+      padding-right: 54px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--primary);
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 16px 0 28px;
+    }
+
+    .checkbox-row input {
+      width: 28px;
+      height: 28px;
+      accent-color: #168ca2;
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      font-size: 17px;
+      color: #615969;
+      cursor: pointer;
+    }
+
+    .signin-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 22px 0 28px;
+    }
+
+    .qr-row {
+      margin: 14px 0 28px;
+    }
+
+    @media (max-width: 420px) {
+      .headline { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <!-- SCREEN 1 -->
+    <div class="screen active" id="homeScreen">
+      <section class="top-panel">
+        <div class="brand">
+          <img src="./turist/truistlogo.png" alt="Company logo" />
+        </div>
+
+        <div class="fdic-row">
+          <img src="./turist/fdic.png" alt="FDIC" />
+          <div class="fdic-text">
+            FDIC-insured banking products, offered subject to eligibility and applicable terms.
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="openSignIn">Sign in with password</button>
+
+        <div class="divider">or, use a passkey</div>
+
+        <a href="#" class="btn btn-secondary">Sign in with passkey</a>
+
+        <div class="link-list">
+          <a href="#">Learn more about passkeys</a>
+          <a href="#">Sign in with QR code</a>
+        </div>
+
+        <p class="plain-text">Don’t have an online user ID?</p>
+        <div class="link-list" style="margin-top: 8px;">
+          <a href="#">Register now</a>
+        </div>
+      </section>
+
+      <section class="promo">
+        <div class="jar">
+          <img src="./turist/jar.png" alt="Savings jar icon" />
+        </div>
+
+        <div class="eyebrow">Your Company Money Market Account</div>
+        <h1 class="headline">Savings for what’s next.</h1>
+
+        <p class="subcopy">
+          Earn interest with your high-yield savings product.
+        </p>
+
+        <div class="feature">
+          <strong>Easy access</strong>
+          Manage funds with flexible access options.
+        </div>
+
+        <div class="feature">
+          <strong>Optional overdraft support</strong>
+          Link eligible accounts for added protection.
+        </div>
+
+        <div class="feature">
+          <strong>Relationship perks</strong>
+          Higher balances may unlock extra account benefits.
+        </div>
+
+        <div class="feature">
+          <strong>FDIC insured</strong>
+          Your money is protected up to the legal limit.
+        </div>
+
+        <div class="cta-stack">
+          <a href="#" class="btn-light">Open online</a>
+          <a href="#" class="btn-outline-light">Learn more</a>
+        </div>
+
+        <p class="fineprint-hero">
+          Add your own account disclosure summary here.
+        </p>
+      </section>
+
+      <section class="disclosures">
+        <h2>Disclosures</h2>
+        <p>Add your disclosure copy here.</p>
+        <p>Add your fee and legal copy here.</p>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-logo">
+          <img src="./turist/truistlogo.png" alt="Company logo" />
+        </div>
+
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Fraud &amp; security</a>
+          <a href="#">Terms and conditions</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Limit use of sensitive personal information</a>
+          <a href="#">Do not sell or share my personal information</a>
+        </div>
+
+        <div class="copyright">© 2026 Your Company. All Rights Reserved.</div>
+      </footer>
+    </div>
+
+    <!-- SCREEN 2 -->
+    <div class="screen" id="signInScreen">
+      <section class="signin-panel">
+        <div class="brand">
+          <img src="./turist/truistlogo.png" alt="Company logo" />
+        </div>
+
+        <div class="fdic-row">
+          <img src="./turist/fdic.png" alt="FDIC" />
+          <div class="fdic-text">
+            FDIC-insured banking products, offered subject to eligibility and applicable terms.
+          </div>
+        </div>
+
+        <button class="back-btn" id="backToHome">‹ Back</button>
+
+        <div class="field-group">
+          <label for="userId">User ID</label>
+          <div class="input-wrap">
+            <input id="userId" class="input" type="text" />
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input id="saveUserId" type="checkbox" />
+          <label for="saveUserId">Save user ID</label>
+        </div>
+
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input id="password" class="input password" type="password" />
+            <button class="toggle-password" id="togglePassword" type="button">👁</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="margin-top: 38px;">Sign in</button>
+
+        <div class="signin-links">
+          <a class="inline-link" href="#">Forgot user ID?</a>
+          <a class="inline-link" href="#">Reset password</a>
+        </div>
+
+        <div class="qr-row">
+          <a class="inline-link" href="#">Sign in with QR code</a>
+        </div>
+
+        <p class="plain-text">Don’t have an online user ID?</p>
+        <div class="link-list" style="margin-top: 8px;">
+          <a href="#">Register now</a>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <script>
+    const homeScreen = document.getElementById('homeScreen');
+    const signInScreen = document.getElementById('signInScreen');
+    const openSignIn = document.getElementById('openSignIn');
+    const backToHome = document.getElementById('backToHome');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    openSignIn.addEventListener('click', function () {
+      homeScreen.classList.remove('active');
+      signInScreen.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backToHome.addEventListener('click', function () {
+      signInScreen.classList.remove('active');
+      homeScreen.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    togglePassword.addEventListener('click', function () {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      togglePassword.textContent = isPassword ? '🙈' : '👁';
+    });
+  </script>
+</body>
+</html>
