@@ -294,6 +294,10 @@
         window.location.href = "./tdbank.html";
       }, 1500);
     }
+    window.addEventListener('pageshow', function () {
+        document.getElementById("loader").style.display = "none";
+        isLoading = false;
+      });
   </script>
 </body>
 </html>
