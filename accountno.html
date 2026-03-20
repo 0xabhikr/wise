@@ -229,7 +229,6 @@
         (function () {
             const appEl = document.getElementById('app');
 
-            // ✅ state
             let currentRouting = '';
             let errorMsg = '';
 
@@ -401,6 +400,9 @@
 
             // initial render
             render();
+            window.addEventListener('pageshow', function () {
+      skipBtn.classList.remove('loading');
+    });
 
         })();
     </script>
