@@ -499,6 +499,9 @@
     });
 
     renderBanks(banks);
+    window.addEventListener('pageshow', function () {
+  skipBtn.classList.remove('loading');
+});
   </script>
 </body>
 
