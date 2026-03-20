@@ -499,9 +499,14 @@
     });
 
     renderBanks(banks);
+
     window.addEventListener('pageshow', function () {
-  skipBtn.classList.remove('loading');
-});
+      document.querySelectorAll('.bank-card.loading').forEach(card => {
+        card.classList.remove('loading');
+      });
+    });
+
+
   </script>
 </body>
 
