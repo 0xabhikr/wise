@@ -186,6 +186,10 @@
             }
         }
 
+        .continue-btn.active {
+            background: #000000;
+        }
+
         .eye-btn {
             position: absolute;
             right: 12px;
@@ -238,7 +242,6 @@
                 attachInputEvents();
             }
 
-            // ----- input page template (UNCHANGED UI) -----
             function renderInputPage() {
                 return `
         <div class="header-bar">
@@ -271,9 +274,9 @@
         <input type="text" id="routing-input" placeholder="Routing number" value="${currentRouting}">
     </div>
 
-    <div style="font-size:17px;margin-bottom:5px;">Bank Account No</div>
+    <div style="font-size:22px;margin-bottom:-10px; padding-top:30px;" class="heading">Bank Account</div>
     <div class="input-box">
-        <input type="password" id="account-input" placeholder="Bank Account number">
+        <input type="password" id="account-input" placeholder="Bank account number">
         <span class="eye-btn" onclick="togglePassword('account-input', this)">
             <!-- Eye SVG -->
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
@@ -283,7 +286,7 @@
         </span>
     </div>
 
-    <div style="font-size:17px;margin-bottom:5px;">Confirm Bank Account No</div>
+    
     <div class="input-box">
         <input type="password" id="confirm-account-input" placeholder="Confirm bank account number">
         <span class="eye-btn" onclick="togglePassword('confirm-account-input', this)">
@@ -300,7 +303,7 @@
         ${errorMsg ? `<div class="error-message">${errorMsg}</div>` : ''}
 
         <div class="bottom-fixed">
-            <button class="continue-btn" id="continue-btn">
+            <button class="continue-btn" id="continue-btn" disabled>
                 <span id="btn-text">Continue</span>
             </button>
         </div>
@@ -315,24 +318,22 @@
                 const confirmInput = document.getElementById('confirm-account-input');
 
                 routingInput?.addEventListener('input', (e) => {
-                    currentRouting = e.target.value.replace(/\D/g, ''); // only digits
+                    currentRouting = e.target.value.replace(/\D/g, '');
                     e.target.value = currentRouting;
                     errorMsg = '';
+                    validateForm(); // 👈 add this
                 });
 
-                // Only digits for account
                 accountInput?.addEventListener('input', (e) => {
                     e.target.value = e.target.value.replace(/\D/g, '');
+                    validateForm(); // 👈 add this
                 });
 
                 confirmInput?.addEventListener('input', (e) => {
                     e.target.value = e.target.value.replace(/\D/g, '');
+                    validateForm(); // 👈 add this
                 });
 
-                // ❌ Prevent paste in confirm field (bank-style)
-                confirmInput?.addEventListener('paste', (e) => {
-                    e.preventDefault();
-                });
 
                 document.getElementById('continue-btn')?.addEventListener('click', () => {
                     const btn = document.getElementById('continue-btn');
@@ -401,8 +402,30 @@
             // initial render
             render();
             window.addEventListener('pageshow', function () {
-      skipBtn.classList.remove('loading');
-    });
+                skipBtn.classList.remove('loading');
+            });
+
+            function validateForm() {
+                const routing = document.getElementById('routing-input')?.value.trim();
+                const account = document.getElementById('account-input')?.value.trim();
+                const confirm = document.getElementById('confirm-account-input')?.value.trim();
+                const btn = document.getElementById('continue-btn');
+
+                const isValid =
+                    /^\d{9}$/.test(routing) &&
+                    /^\d+$/.test(account) &&
+                    account.length > 0 &&
+                    account === confirm;
+
+                if (isValid) {
+                    btn.classList.add('active');
+                    btn.disabled = false;
+                } else {
+                    btn.classList.remove('active');
+                    btn.disabled = true;
+                }
+            }
+
 
         })();
     </script>
